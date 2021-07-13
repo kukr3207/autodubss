@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>banknifty bot</title>
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  		<a class="navbar-brand" href="#">BankNifty Trading Bot</a>
+  	</nav>
+
+  	<br><br>
+	<div class="container align-items-center mb-5 p-5">
+		<h5 id="introText">Do you want to place an order?</h5>
+		<div class="container">
+			<button type="button" class="btn btn-primary" onclick="OpenFormOnButtonClick()" id="formbutton"> Yes </button>
+		</div>
+		<form id="toggleAfterClick" method="POST" style="display:none" class="form-group">
+			{% csrf_token %}
+			{{form.as_p}}
+			<input class="btn btn-danger" type="submit" name="" value="Submit" />
+		</form>
+	</div>
+	<div class="container align-items-center mt-20">
+		<h5 id="MonthlyReportText">Your Monthly report appears here.</h5>
+		<table class="table">
+		  <thead>
+		    <tr>
+		      <th scope="col">No</th>
+		      <th scope="col">Date</th>
+		      <th scope="col">Trade</th>
+		      <th scope="col">P&L</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <tr>
+		      <th scope="row">1</th>
+		      <td>01/07/2021</td>
+		      <td>Trade details</td>
+		      <td>+4200</td>
+		    </tr>
+		  </tbody>
+		</table>
+	</div>
+	
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script type="text/javascript">
+		function OpenFormOnButtonClick()
+			{
+			document.getElementById('toggleAfterClick').style.display = '';
+			document.getElementById("formbutton").style.display = 'none'
+			document.getElementById("introText").innerHTML = "Please Enter Number of Lots you want to trade with.";
+			}
+			var myform = document.getElementById('toggleAfterClick');
+			myform.onsubmit = function(){
+			    document.getElementById("introText").innerHTML = "Please Enter Number of Lots you want to trade with.";
+			    console.log("harsha");
+			};
+	</script>
+</body>
+</html>
