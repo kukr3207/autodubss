@@ -3,11 +3,16 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 
 
+STOCK_CHOICES = (
+    ('BANKNIFTY21JULFUT','BANKNIFTY21JULFUT'),
+    ('BANKNIFTY21AUGFUT', 'BANKNIFTY21AUGFUT'),
+)
+
 # Create your models here.
 class UserLotsInput(models.Model):
 	user_id = models.ForeignKey(User, on_delete=models.CASCADE)
 	date_added = models.DateTimeField(auto_now_add=True)
-	stock = models.CharField(max_length=300, null=True)
+	stock = models.CharField(max_length=300, null=True, choices=STOCK_CHOICES,)
 	number_of_lots = models.IntegerField()
 	order_id_1 = models.CharField(max_length=300, null=True)
 	order_id_2 = models.CharField(max_length=300, null=True)

@@ -7,7 +7,8 @@ class UserLotsInputForm(forms.ModelForm):
 		model = UserLotsInput
 		fields = [
 			# "user_id",
-			"number_of_lots"
+			"number_of_lots",
+			"stock"
 		]
 		# widgets = {
 		# 	'number_of_lots': forms.TextInput(attrs={'class': 'myfieldclass'}),

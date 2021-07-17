@@ -21,7 +21,7 @@ def bankNiftyBot(request):
 				algo_obj = StockMarket()
 				order_id_1, order_id_2 = algo_obj.run(form_obj.number_of_lots,request.user)
 				stock = "BANKNIFTY21JULFUT"
-				
+				stock = form_obj.stock
 				form_obj.stock = stock
 				form_obj.order_id_1 = str(order_id_1)
 				form_obj.order_id_2 = str(order_id_2)

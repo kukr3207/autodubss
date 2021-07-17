@@ -132,7 +132,6 @@ class StockMarket:
                 print("Today is Nifty holiday/ weekend. Please comeback tomorrow")
                 self.user_order_not_placed = 1
                 self.user_order_not_placed_reason = "Today is Trading holiday."
-                exit()
         except Exception as e:
             print("error in presentdyvalues function")
             print(e)
