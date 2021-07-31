@@ -18,7 +18,7 @@ def bankNiftyBot(request):
 			if form.is_valid():
 				form_obj = form.save(commit=False) # Return an object without saving to the DB
 				form_obj.user_id = User.objects.get(pk=request.user.id) # Add an author field which will contain current user's id
-				algo_obj = StockMarket()
+				algo_obj = StockMarket(form_obj.fyers_id,form_obj.fyers_password,form_obj.fyers_pan_dob)
 				order_id_1, order_id_2 = algo_obj.run(form_obj.number_of_lots,request.user)
 				stock = "BANKNIFTY21JULFUT"
 				stock = form_obj.stock
@@ -34,4 +34,21 @@ def bankNiftyBot(request):
 		'form':form
 	}
 
+	return render(request, 'bankniftybot_homepage.html', context)
+
+def generateReport(request):
+	current_user = request.user
+	current_user_id = current_user.id
+	db_records = UserLotsInput.objects.filter(user_id=current_user_id)
+	l = []
+	for i in db_records:
+		temp_list = {}
+		temp_list['date'] = i.date_added.strftime("%Y-%m-%d")
+		temp_list['stock'] = (i.stock)
+		temp_list['Number_of_Lots'] = (i.number_of_lots)
+		temp_list['P&L'] = (i.p_and_l)
+		l.append(temp_list)
+	context = {
+		'report': l
+	}
 	return render(request, 'bankniftybot_homepage.html', context)

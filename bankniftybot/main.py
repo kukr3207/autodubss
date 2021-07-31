@@ -22,7 +22,7 @@ HOLIDAY_LIST = ["26-01-2021", "11-03-2021", "29-03-2021", "02-04-2021", "14-04-2
 
 class StockMarket:
 
-    def __init__(self):
+    def __init__(self, fyers_id, fyers_password, fyers_pan_dob):
         self.previous_day_barsize = "EOD"
         parameters = {}
         self.pre_high = parameters.get("pre_high",0)
@@ -51,14 +51,19 @@ class StockMarket:
         self.fyers_order_executed_message = ""
         self.user_order_not_placed_reason = ""
 
+        #fyers credentials
+        self.fyers_id = fyers_id
+        self.fyers_password = fyers_password
+        self.fyers_pan_dob = fyers_pan_dob
+
 
     def getAccessToken(self):
         try:
             url = 'https://api.fyers.in/api/v1/token'
             requestParams = {
-            "fyers_id":"XC00383",
-            "password":"Kishore@1972",
-            "pan_dob":"10-05-1972",
+            "fyers_id":self.fyers_id,
+            "password":self.fyers_password,
+            "pan_dob":self.fyers_pan_dob,
             "appId":"VY1T8XB90T",
             "create_cookie":False}
             response = requests.post(url, json = requestParams )

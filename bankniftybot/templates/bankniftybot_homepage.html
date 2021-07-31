@@ -26,22 +26,27 @@
 	</div>
 	<div class="container align-items-center mt-20">
 		<h5 id="MonthlyReportText">Your Monthly report appears here.</h5>
+		<div class="container">
+			<a class="btn btn-primary" href="{% url 'generateReport' %}">Generate Report</a>
+		</div>
+		<br>
 		<table class="table">
 		  <thead>
 		    <tr>
-		      <th scope="col">No</th>
 		      <th scope="col">Date</th>
-		      <th scope="col">Trade</th>
-		      <th scope="col">P&L</th>
+		      <th scope="col">Contract</th>
+		      <th scope="col">Number Of Lots</th>
+			  <th scope="col">P&L</th>
 		    </tr>
 		  </thead>
 		  <tbody>
+			{% for each_record in report %}
 		    <tr>
-		      <th scope="row">1</th>
-		      <td>01/07/2021</td>
-		      <td>Trade details</td>
-		      <td>+4200</td>
+				{% for key, value in each_record.items %}
+					<td>{{ value }}</td>
+				{% endfor %}
 		    </tr>
+			{% endfor %}
 		  </tbody>
 		</table>
 	</div>

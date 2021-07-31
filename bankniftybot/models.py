@@ -19,6 +19,9 @@ class UserLotsInput(models.Model):
 	order_closing_type = models.CharField(max_length=50, null=True)
 	value = models.IntegerField(null=True)
 	p_and_l = models.IntegerField(null=True)
+	fyers_id = models.CharField(max_length=300, null=True)
+	fyers_password = models.CharField(max_length=300, null=True)
+	fyers_pan_dob = models.CharField(max_length=300, null=True)
 
 	def __str__(self):
 		return str(self.user_id)
