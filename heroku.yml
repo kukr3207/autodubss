@@ -7,6 +7,6 @@ run:
 release:
   image: web
   command:
-    - python /app/manage.py migrate
-    - python /app/manage.py makemigrations
-    - python /app/manage.py migrate
+    - python3 /app/manage.py migrate
+    - python3 /app/manage.py makemigrations
+    - python3 /app/manage.py migrate
