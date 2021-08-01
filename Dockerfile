@@ -19,4 +19,4 @@ EXPOSE 8000
 
 WORKDIR ./app
 
-CMD ["python3", "/app/manage.py", "runserver", "0.0.0.0:8000"]
+CMD gunicorn hello_django.wsgi:application --bind 0.0.0.0:8000
