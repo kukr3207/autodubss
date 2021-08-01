@@ -146,3 +146,7 @@ LOGIN_REDIRECT_URL = '/'
 CRONJOBS = [
     ("30 14 * * *","bankniftybot.cron.hi",'>> /mnt/c/Users/harsh/Desktop/trading_bots/algo_trading/bankniftybot/settest.log')
 ]
+
+# if __name__ == "__main__":
+#     port = int(os.environ.get("PORT", 8000))
+#     app.run(host='0.0.0.0', port=port)

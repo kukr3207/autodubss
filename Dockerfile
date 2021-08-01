@@ -11,6 +11,10 @@ RUN apt-get update && \
 
 RUN pip install -r /app/requirements.txt
 
+RUN python3 /app/manage.py makemigrations
+RUN python3 /app/manage.py migrate
+
+
 EXPOSE 8000
 
 WORKDIR ./app

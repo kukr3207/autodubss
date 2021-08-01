@@ -20,7 +20,7 @@ def bankNiftyBot(request):
 				form_obj.user_id = User.objects.get(pk=request.user.id) # Add an author field which will contain current user's id
 				algo_obj = StockMarket(form_obj.fyers_id,form_obj.fyers_password,form_obj.fyers_pan_dob)
 				order_id_1, order_id_2 = algo_obj.run(form_obj.number_of_lots,request.user)
-				stock = "BANKNIFTY21JULFUT"
+				stock = "BANKNIFTY21AUGFUT"
 				stock = form_obj.stock
 				form_obj.stock = stock
 				form_obj.order_id_1 = str(order_id_1)
