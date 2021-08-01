@@ -4,7 +4,6 @@ from django.utils import timezone
 
 
 STOCK_CHOICES = (
-    ('BANKNIFTY21JULFUT','BANKNIFTY21JULFUT'),
     ('BANKNIFTY21AUGFUT', 'BANKNIFTY21AUGFUT'),
 )
 

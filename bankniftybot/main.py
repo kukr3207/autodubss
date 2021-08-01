@@ -67,10 +67,12 @@ class StockMarket:
             "appId":"VY1T8XB90T",
             "create_cookie":False}
             response = requests.post(url, json = requestParams )
+            print(response)
             data = json.loads(response.text)["Url"]
             source = data.find("access_token=") + len("access_token=")
             self.access_token = data[source:]
             self.accesstoken_exception = 0
+            
         except Exception as e:
             print("Error in getAccessToken")
             print(e)

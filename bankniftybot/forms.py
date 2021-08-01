@@ -11,7 +11,7 @@ class UserLotsInputForm(forms.ModelForm):
 			"fyers_password",
 			"fyers_pan_dob",
 			"number_of_lots",
-			"stock",
+			# "stock",
 			
 		]
 		# widgets = {
