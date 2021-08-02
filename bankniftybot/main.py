@@ -308,7 +308,7 @@ class StockMarket:
             response = fyers.place_orders(
                 token = self.access_token,
                 data = {
-                    "symbol" : "NSE:" + "BANKNIFTY21JULFUT",
+                    "symbol" : "NSE:" + "BANKNIFTY21AUGFUT",
                     "qty" : number_of_stocks,
                     "type" : 4,
                     "side" : side,
