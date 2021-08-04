@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bankniftybot',
     'django_crontab',
+    'django_apscheduler',
 ]
 
 MIDDLEWARE = [

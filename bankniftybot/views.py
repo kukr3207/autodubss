@@ -5,6 +5,7 @@ from .models import User
 from .forms import UserLotsInputForm
 from .models import UserLotsInput
 from .main import StockMarket
+from .cron import Command
 import json
 # Create your views here.
 
@@ -18,14 +19,18 @@ def bankNiftyBot(request):
 			if form.is_valid():
 				form_obj = form.save(commit=False) # Return an object without saving to the DB
 				form_obj.user_id = User.objects.get(pk=request.user.id) # Add an author field which will contain current user's id
-				algo_obj = StockMarket(form_obj.fyers_id,form_obj.fyers_password,form_obj.fyers_pan_dob)
-				print(form_obj.fyers_id,form_obj.fyers_password,form_obj.fyers_pan_dob)
-				order_id_1, order_id_2 = algo_obj.run(form_obj.number_of_lots,request.user)
-				stock = "BANKNIFTY21AUGFUT"
-				form_obj.stock = stock
-				form_obj.order_id_1 = str(order_id_1)
-				form_obj.order_id_2 = str(order_id_2)
-				form_obj.save() # Save the final "real form" to the DB
+				c = Command()  
+				stock = "  "
+				c.handle(form_obj.fyers_id,form_obj.fyers_password,form_obj.fyers_pan_dob,form_obj.number_of_lots,request.user,stock,form_obj)
+				# algo_obj = StockMarket(form_obj.fyers_id,form_obj.fyers_password,form_obj.fyers_pan_dob)
+				# print(form_obj.fyers_id,form_obj.fyers_password,form_obj.fyers_pan_dob)
+				
+				# # order_id_1, order_id_2 = algo_obj.run(form_obj.number_of_lots,request.user)
+				# stock = "BANKNIFTY21AUGFUT"
+				# form_obj.stock = stock
+				# form_obj.order_id_1 = str(order_id_1)
+				# form_obj.order_id_2 = str(order_id_2)
+				# form_obj.save() # Save the final "real form" to the DB
 			else:
 				print("ERROR : Form is invalid")
 				print(form.errors)

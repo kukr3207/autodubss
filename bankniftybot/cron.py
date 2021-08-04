@@ -1,67 +1,87 @@
-from .models import UserLotsInput
-from django.db.models import Q
-import datetime
-from datetime import timedelta
-from django.utils import timezone
-import json
-from fyers_api import fyersModel
-from fyers_api import accessToken
-import requests
+# runapscheduler.py
+import logging
 
-def getAccessToken():
+from django.conf import settings
+
+from apscheduler.schedulers.blocking import BlockingScheduler
+from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.triggers.cron import CronTrigger
+from django.core.management.base import BaseCommand
+from django_apscheduler.jobstores import DjangoJobStore
+from django_apscheduler.models import DjangoJobExecution
+from django_apscheduler import util
+
+from .main import StockMarket
+
+logger = logging.getLogger(__name__)
+
+
+def my_job(a):
+  # Your job processing logic here...
+  print(a)
+  print("@@@@@@@@@@@@@@@@%$$$$$$$$$$$$$$$$$")
+  pass
+
+def executeTrade(fyers_id,fyers_password,fyers_pan_dob,number_of_lots,user,stock,form_obj):
+    print(fyers_id,fyers_password,fyers_pan_dob,number_of_lots,user,stock,form_obj)
+    algo_obj = StockMarket(fyers_id,fyers_password,fyers_pan_dob)
+    print(fyers_id,fyers_password,fyers_pan_dob)
+    order_id_1, order_id_2 = algo_obj.run(number_of_lots,user)
+    form_obj.stock = stock
+    form_obj.order_id_1 = str(order_id_1)
+    form_obj.order_id_2 = str(order_id_2)
+    form_obj.save() # Save the final "real form" to the DB
+
+# The `close_old_connections` decorator ensures that database connections, that have become
+# unusable or are obsolete, are closed before and after our job has run.
+@util.close_old_connections
+def delete_old_job_executions(max_age=604_800):
+  """
+  This job deletes APScheduler job execution entries older than `max_age` from the database.
+  It helps to prevent the database from filling up with old historical records that are no
+  longer useful.
+  
+  :param max_age: The maximum length of time to retain historical job execution records.
+                  Defaults to 7 days.
+  """
+  DjangoJobExecution.objects.delete_old_job_executions(max_age)
+
+class Command(BaseCommand):
+  help = "Runs APScheduler."
+
+  def handle(self,fyers_id,fyers_password,fyers_pan_dob,number_of_lots,user,stock,form_obj ,*args, **options):
+    scheduler = BackgroundScheduler(timezone=settings.TIME_ZONE)
+    scheduler.add_jobstore(DjangoJobStore(), "default")
+
+    scheduler.add_job(
+        executeTrade,
+        'cron',
+        args=[fyers_id,fyers_password,fyers_pan_dob,number_of_lots,user,stock,form_obj],
+        day_of_week='mon-fri', hour=9, minute=18,
+        id="my_job",  # The `id` assigned to each job MUST be unique
+        max_instances=1,
+        replace_existing=True,
+    )
+    logger.info("Added job 'my_job'.")
+
+    scheduler.add_job(
+        delete_old_job_executions,
+        trigger=CronTrigger(
+            day_of_week="*", hour="15", minute="00"
+        ),  # Midnight on Monday, before start of the next work week.
+        id="delete_old_job_executions",
+        max_instances=1,
+        replace_existing=True,
+    )
+    logger.info(
+        "Added weekly job: 'delete_old_job_executions'."
+    )
+
     try:
-        url = 'https://api.fyers.in/api/v1/token'
-        requestParams = {
-        "fyers_id":"XC00383",
-        "password":"Kishore@1973",
-        "pan_dob":"10-05-1972",
-        "appId":"VY1T8XB90T",
-        "create_cookie":False}
-        response = requests.post(url, json = requestParams )
-        data = json.loads(response.text)["Url"]
-        source = data.find("access_token=") + len("access_token=")
-        access_token = data[source:]
-        accesstoken_exception = 0
-        return access_token, accesstoken_exception
-    except Exception as e:
-        print("Error in getAccessToken")
-        print(e)
-        access_token = None
-        accesstoken_exception = 1
-        return access_token, accesstoken_exception
-
-def generateAccess():
-    try:
-        is_async = False #(By default False, Change to True for asnyc API calls.)
-        fyers = fyersModel.FyersModel(is_async)
-        generateaccess_exception = 0
-        return fyers, generateaccess_exception
-    except:
-        generateaccess_exception = 1
-        fyers = None
-        return fyers, generateaccess_exception
-
-def getOrderStatus(order_id, access_token):
-    try:
-        response = fyers.order_status(
-                        token = access_token,
-                        data = {
-                        "id" : order_id
-                        }
-                        )
-        
-    except Exception as e:
-        print("Cannot get order status. cron jobs")
-        print(e)
-
-def cancelOrdersAt1430():
-    current_time = timezone.now()
-    today_time = current_time.replace(hour=9, minute=16, second=0, microsecond=0)
-    data = UserLotsInput.objects.filter(Q(date_added__range = [today_time, current_time]))
-    for each_field in data.iterator():
-        order_id_1 = each_field.order_id_1
-        order_id_2 = each_field.order_id_2
-
-
-    
+        logger.info("Starting scheduler...")
+        scheduler.start()
+    except KeyboardInterrupt:
+        logger.info("Stopping scheduler...")
+        scheduler.shutdown()
+        logger.info("Scheduler shut down successfully!")
 
