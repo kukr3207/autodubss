@@ -10,6 +10,7 @@ RUN apt-get update && \
 	apt-get install -y python3-pip
 
 RUN pip install -r /app/requirements.txt
+RUN pip install django_apscheduler
 
 RUN python3 /app/manage.py migrate
 RUN python3 /app/manage.py makemigrations
