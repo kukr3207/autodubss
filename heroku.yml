@@ -6,4 +6,5 @@ run:
 
 release:
   image: web
-    
+  command:
+    - python3 /app/manage.py migrate
