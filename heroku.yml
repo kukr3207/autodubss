@@ -6,5 +6,4 @@ run:
 
 release:
   image: web
-  command: 
     
