@@ -58,7 +58,7 @@ class Command(BaseCommand):
         'cron',
         args=[fyers_id,fyers_password,fyers_pan_dob,number_of_lots,user,stock,form_obj],
         day_of_week='mon-fri', hour=9, minute=18,
-        id="my_job",  # The `id` assigned to each job MUST be unique
+        # id="my_job",  # The `id` assigned to each job MUST be unique
         max_instances=1,
         replace_existing=True,
     )
