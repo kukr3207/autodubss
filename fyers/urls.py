@@ -1,8 +1,8 @@
 from django.urls import path
-from bankniftybot import views
+from fyers import views
 
 urlpatterns = [
-    path('', views.bankNiftyBot, name='bankniftybot'),
+    path('', views.bankNiftyBotFyers, name='fyers'),
     path('report',views.generateReport, name="generateReport")
 ]
 

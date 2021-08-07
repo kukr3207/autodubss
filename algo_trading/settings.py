@@ -28,7 +28,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,9 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'bankniftybot',
     'django_crontab',
     'django_apscheduler',
+    'fyers',
 ]
 
 MIDDLEWARE = [
@@ -142,11 +141,6 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = '/'
-
-
-CRONJOBS = [
-    ("30 14 * * *","bankniftybot.cron.hi",'>> /mnt/c/Users/harsh/Desktop/trading_bots/algo_trading/bankniftybot/settest.log')
-]
 
 import os
 port = int(os.environ.get("PORT", 8000))

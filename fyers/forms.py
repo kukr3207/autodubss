@@ -7,6 +7,7 @@ class UserLotsInputForm(forms.ModelForm):
 		model = UserLotsInput
 		fields = [
 			# "user_id",
+			"trading_platform",
 			"fyers_id",
 			"fyers_password",
 			"fyers_pan_dob",

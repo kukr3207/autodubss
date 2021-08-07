@@ -10,27 +10,17 @@ import json
 # Create your views here.
 
 @login_required
-def bankNiftyBot(request):
+def bankNiftyBotFyers(request):
 	form = UserLotsInputForm(request.POST or None)
 	if request.method == "POST":
 		if request.user.is_authenticated:
-			# form['user_id'] = User.objects.get(pk=request.user.id)
-			# form['number_of_lots'] = request.POST["number_of_lots"]
 			if form.is_valid():
 				form_obj = form.save(commit=False) # Return an object without saving to the DB
 				form_obj.user_id = User.objects.get(pk=request.user.id) # Add an author field which will contain current user's id
+				# print(form_obj.trading_platform)
 				c = Command()  
 				stock = "  "
 				c.handle(form_obj.fyers_id,form_obj.fyers_password,form_obj.fyers_pan_dob,form_obj.number_of_lots,request.user,stock,form_obj)
-				# algo_obj = StockMarket(form_obj.fyers_id,form_obj.fyers_password,form_obj.fyers_pan_dob)
-				# print(form_obj.fyers_id,form_obj.fyers_password,form_obj.fyers_pan_dob)
-				
-				# # order_id_1, order_id_2 = algo_obj.run(form_obj.number_of_lots,request.user)
-				# stock = "BANKNIFTY21AUGFUT"
-				# form_obj.stock = stock
-				# form_obj.order_id_1 = str(order_id_1)
-				# form_obj.order_id_2 = str(order_id_2)
-				# form_obj.save() # Save the final "real form" to the DB
 			else:
 				print("ERROR : Form is invalid")
 				print(form.errors)
@@ -39,12 +29,13 @@ def bankNiftyBot(request):
 		'form':form
 	}
 
-	return render(request, 'bankniftybot_homepage.html', context)
+	return render(request, 'fyers_homepage.html', context)
 
 def generateReport(request):
 	current_user = request.user
 	current_user_id = current_user.id
 	db_records = UserLotsInput.objects.filter(user_id=current_user_id)
+	form = UserLotsInputForm(request.POST or None)
 	l = []
 	for i in db_records:
 		temp_list = {}
@@ -54,6 +45,7 @@ def generateReport(request):
 		temp_list['P&L'] = (i.p_and_l)
 		l.append(temp_list)
 	context = {
-		'report': l
+		'report': l,
+		'form': form
 	}
-	return render(request, 'bankniftybot_homepage.html', context)
+	return render(request, 'fyers_homepage.html', context)

@@ -6,6 +6,10 @@ from django.utils import timezone
 STOCK_CHOICES = (
     ('BANKNIFTY21AUGFUT', 'BANKNIFTY21AUGFUT'),
 )
+PLATFORM_CHOICE = (
+	("FYERS", "FYERS"),
+	("ANGEL_BROKING","ANGEL BROKING")
+)
 
 # Create your models here.
 class UserLotsInput(models.Model):
@@ -21,6 +25,6 @@ class UserLotsInput(models.Model):
 	fyers_id = models.CharField(max_length=300, null=True)
 	fyers_password = models.CharField(max_length=300, null=True)
 	fyers_pan_dob = models.CharField(max_length=300, null=True)
-
+	trading_platform = models.CharField(max_length=300, null=True, choices=PLATFORM_CHOICE,)
 	def __str__(self):
 		return str(self.user_id)

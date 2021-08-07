@@ -56,7 +56,9 @@ class StockMarket:
         self.fyers_password = fyers_password
         self.fyers_pan_dob = fyers_pan_dob
 
-
+    """
+    getAccessToken, generateAccess are used to place order.
+    """
     def getAccessToken(self):
         try:
             url = 'https://api.fyers.in/api/v1/token'
@@ -87,7 +89,9 @@ class StockMarket:
         except:
             self.generateaccess_exception = 1
 
-
+    """
+    getPreviousDayValues, getPresentDayValue are used to get historic data.
+    """
     def getPreviousDayValues(self,td_obj):
         try:
             end_date = datetime.datetime.today() - timedelta(days=1)
@@ -116,8 +120,7 @@ class StockMarket:
             print(e)
             self.wrong_previousday_values = 1
 
-        return None
-            
+        return None         
 
     def getPresentDayValue(self,td_obj):
         try:
@@ -146,6 +149,9 @@ class StockMarket:
 
         return None
 
+    """
+    Algorithm functions 
+    """
     def calculateOPValues(self):
         try:
             op_values = {}
@@ -298,6 +304,9 @@ class StockMarket:
             order_id_2 = 0
         return order_id_1, order_id_2
 
+    """
+    These functions are for placing, cancelling  the  order
+    """
     def placeOrder(self, difference, quantity,  target, stop_loss, order_value, side, fyers):
         try:
             number_of_stocks = quantity*25  #banknifty lot size is in 25 multiples. 
