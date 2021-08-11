@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_crontab',
     'django_apscheduler',
+    'home',
     'fyers',
 ]
 
@@ -141,6 +142,7 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = '/'
+
 
 import os
 port = int(os.environ.get("PORT", 8000))

@@ -1,34 +1,92 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 from .models import User
-from .forms import UserLotsInputForm
-from .models import UserLotsInput
+from .forms import UserBankniftyFyersRelationForm, UserCrudeoilFyersRelationForm
+from .models import UserBankniftyFyersRelation, UserCrudeoilFyersRelation, UserFyersAppRelation
 from .main import StockMarket
+from .fyers_authentication import fyersOAuth
 from .cron import Command
 import json
 # Create your views here.
 
 @login_required
-def bankNiftyBotFyers(request):
-	form = UserLotsInputForm(request.POST or None)
+def fyersAuthentication(request):
+	user_id = User.objects.get(pk=request.user.id).__dict__['id']
+	try:
+		user_fyers_app = UserFyersAppRelation.objects.get(user_id=user_id).__dict__
+		app_id = user_fyers_app['fyers_app_id']
+		app_secret = user_fyers_app['fyers_app_secretkey']
+		html = fyersOAuth(app_id, app_secret)
+	except Exception as e:
+		print(e)
+		print("Fyers app does not exist. Please contact admin.")
+		html = "Fyers app does not exist. Please contact admin."
+	return HttpResponse(html)
+
+@login_required
+def fyers(request):
+	access_token = request.GET.get('access_token')
+	request.session['fyers_access_token'] = access_token
+	banknifty_form = UserBankniftyFyersRelationForm(request.POST or None)
+	crudeoil_form = UserCrudeoilFyersRelationForm(request.POST or None)
+	context = {
+		'banknifty_form':banknifty_form,
+		'crudeoil_form':crudeoil_form,
+	}
+	return render(request, "fyers_homepage.html", context)
+
+@login_required
+def bankniftybot(request):
+	banknifty_form = UserBankniftyFyersRelationForm(request.POST or None)
 	if request.method == "POST":
 		if request.user.is_authenticated:
-			if form.is_valid():
-				form_obj = form.save(commit=False) # Return an object without saving to the DB
-				form_obj.user_id = User.objects.get(pk=request.user.id) # Add an author field which will contain current user's id
+			if banknifty_form.is_valid():
+				banknifty_form_obj = banknifty_form.save(commit=False) # Return an object without saving to the DB
+				banknifty_form_obj.user_id = User.objects.get(pk=request.user.id) # Add an author field which will contain current user's id
 				# print(form_obj.trading_platform)
 				c = Command()  
 				stock = "  "
-				c.handle(form_obj.fyers_id,form_obj.fyers_password,form_obj.fyers_pan_dob,form_obj.number_of_lots,request.user,stock,form_obj)
+				#algo_obj = StockMarket()
+				#algo_obj.run(1)
+				access_token = request.session['fyers_access_token']
+				c.handle(access_token,#banknifty_form_obj.fyers_id,banknifty_form_obj.fyers_password,banknifty_form_obj.fyers_pan_dob,
+						banknifty_form_obj.number_of_lots,request.user,stock,banknifty_form_obj)
 			else:
 				print("ERROR : Form is invalid")
 				print(form.errors)
-
+	banknifty_form = UserBankniftyFyersRelationForm(request.POST or None)
+	crudeoil_form = UserCrudeoilFyersRelationForm(request.POST or None)
 	context = {
-		'form':form
-	}
+		'banknifty_form':banknifty_form,
+		'crudeoil_form':crudeoil_form
+	}			
+	return render(request, 'fyers_homepage.html', context)
 
+
+@login_required
+def crudeoilbot(request):
+	crudeoil_form = UserCrudeoilFyersRelationForm(request.POST or None)
+	if request.method == "POST":
+		if request.user.is_authenticated:
+			if crudeoil_form.is_valid():
+				crudeoil_form_obj = crudeoil_form.save(commit=False) # Return an object without saving to the DB
+				crudeoil_form_obj.user_id = User.objects.get(pk=request.user.id) # Add an author field which will contain current user's id
+				# print(form_obj.trading_platform)
+				print("&&&&&&&&&&&&&&&&&&&&&&&&&")
+				# c = Command()  
+				# stock = "  "
+				# c.handle(form_obj.fyers_id,form_obj.fyers_password,form_obj.fyers_pan_dob,form_obj.number_of_lots,request.user,stock,form_obj)
+			else:
+				print("ERROR : Form is invalid")
+				print(form.errors)
+	banknifty_form = UserBankniftyFyersRelationForm(request.POST or None)
+	crudeoil_form = UserCrudeoilFyersRelationForm(request.POST or None)
+	context = {
+		'banknifty_form':banknifty_form,
+		'crudeoil_form':crudeoil_form
+	}			
 	return render(request, 'fyers_homepage.html', context)
 
 def generateReport(request):

@@ -22,10 +22,10 @@ def my_job(a):
   print("@@@@@@@@@@@@@@@@%$$$$$$$$$$$$$$$$$")
   pass
 
-def executeTrade(fyers_id,fyers_password,fyers_pan_dob,number_of_lots,user,stock,form_obj):
-    print(fyers_id,fyers_password,fyers_pan_dob,number_of_lots,user,stock,form_obj)
-    algo_obj = StockMarket(fyers_id,fyers_password,fyers_pan_dob)
-    print(fyers_id,fyers_password,fyers_pan_dob)
+# def executeTrade(access_token, fyers_id,fyers_password,fyers_pan_dob,number_of_lots,user,stock,form_obj):
+def executeTrade(access_token,number_of_lots,user,stock,form_obj):
+    # algo_obj = StockMarket(access_token,fyers_id,fyers_password,fyers_pan_dob)
+    algo_obj = StockMarket(access_token)
     order_id_1, order_id_2 = algo_obj.run(number_of_lots,user)
     form_obj.stock = stock
     form_obj.order_id_1 = str(order_id_1)
@@ -47,41 +47,43 @@ def delete_old_job_executions(max_age=604_800):
   DjangoJobExecution.objects.delete_old_job_executions(max_age)
 
 class Command(BaseCommand):
-  help = "Runs APScheduler."
+    help = "Runs APScheduler."
 
-  def handle(self,fyers_id,fyers_password,fyers_pan_dob,number_of_lots,user,stock,form_obj ,*args, **options):
-    scheduler = BackgroundScheduler(timezone=settings.TIME_ZONE)
-    scheduler.add_jobstore(DjangoJobStore(), "default")
+    # def handle(self,access_token,fyers_id,fyers_password,fyers_pan_dob,number_of_lots,user,stock,form_obj ,*args, **options):
+    def handle(self,access_token,number_of_lots,user,stock,form_obj ,*args, **options):
+        scheduler = BackgroundScheduler(timezone=settings.TIME_ZONE)
+        scheduler.add_jobstore(DjangoJobStore(), "default")
 
-    scheduler.add_job(
-        executeTrade,
-        'cron',
-        args=[fyers_id,fyers_password,fyers_pan_dob,number_of_lots,user,stock,form_obj],
-        day_of_week='mon-fri', hour=9, minute=18,
-        # id="my_job",  # The `id` assigned to each job MUST be unique
-        max_instances=1,
-        replace_existing=True,
-    )
-    logger.info("Added job 'my_job'.")
+        scheduler.add_job(
+            executeTrade,
+            'cron',
+            # args=[access_token,fyers_id,fyers_password,fyers_pan_dob,number_of_lots,user,stock,form_obj],
+            args=[access_token,number_of_lots,user,stock,form_obj],
+            day_of_week='mon-fri', hour=9, minute=18,
+            # id="my_job",  # The `id` assigned to each job MUST be unique
+            max_instances=1,
+            replace_existing=True,
+        )
+        logger.info("Added job 'my_job'.")
 
-    scheduler.add_job(
-        delete_old_job_executions,
-        trigger=CronTrigger(
-            day_of_week="*", hour="15", minute="00"
-        ),  # Midnight on Monday, before start of the next work week.
-        id="delete_old_job_executions",
-        max_instances=1,
-        replace_existing=True,
-    )
-    logger.info(
-        "Added weekly job: 'delete_old_job_executions'."
-    )
+        scheduler.add_job(
+            delete_old_job_executions,
+            trigger=CronTrigger(
+                day_of_week="*", hour="15", minute="00"
+            ),  # Midnight on Monday, before start of the next work week.
+            id="delete_old_job_executions",
+            max_instances=1,
+            replace_existing=True,
+        )
+        logger.info(
+            "Added weekly job: 'delete_old_job_executions'."
+        )
 
-    try:
-        logger.info("Starting scheduler...")
-        scheduler.start()
-    except KeyboardInterrupt:
-        logger.info("Stopping scheduler...")
-        scheduler.shutdown()
-        logger.info("Scheduler shut down successfully!")
+        try:
+            logger.info("Starting scheduler...")
+            scheduler.start()
+        except KeyboardInterrupt:
+            logger.info("Stopping scheduler...")
+            scheduler.shutdown()
+            logger.info("Scheduler shut down successfully!")
 

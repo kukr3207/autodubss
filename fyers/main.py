@@ -6,7 +6,6 @@ import json
 from truedata_ws.websocket.TD import TD
 import datetime
 from datetime import timedelta
-from .models import UserLotsInput
 from fyers_api import accessToken
 
 from fyers_api import fyersModel
@@ -22,7 +21,7 @@ HOLIDAY_LIST = ["26-01-2021", "11-03-2021", "29-03-2021", "02-04-2021", "14-04-2
 
 class StockMarket:
 
-    def __init__(self, fyers_id, fyers_password, fyers_pan_dob):
+    def __init__(self, access_token, fyers_id=None, fyers_password=None, fyers_pan_dob=None):
         self.previous_day_barsize = "EOD"
         parameters = {}
         self.pre_high = parameters.get("pre_high",0)
@@ -31,7 +30,7 @@ class StockMarket:
         self.min_candle = parameters.get("1_min_candle",0)
         self.share = parameters.get("share", "BANKNIFTY-I")
         self.qty = parameters.get("qty", 1)
-        self.access_token = ''
+        self.access_token = access_token
 
         self.buy_value = None 
         self.target = None 
@@ -63,9 +62,9 @@ class StockMarket:
         try:
             url = 'https://api.fyers.in/api/v1/token'
             requestParams = {
-            "fyers_id":self.fyers_id,
-            "password":self.fyers_password,
-            "pan_dob":self.fyers_pan_dob,
+            "fyers_id":'XC00383',#self.fyers_id,
+            "password":'Kishore@1126',#self.fyers_password,
+            "pan_dob":'10-05-1972',#self.fyers_pan_dob,
             "appId":"VY1T8XB90T",
             "create_cookie":False}
             response = requests.post(url, json = requestParams )
@@ -74,7 +73,7 @@ class StockMarket:
             source = data.find("access_token=") + len("access_token=")
             self.access_token = data[source:]
             self.accesstoken_exception = 0
-            
+
         except Exception as e:
             print("Error in getAccessToken")
             print(e)
@@ -122,6 +121,11 @@ class StockMarket:
 
         return None         
 
+    # def getPreviousDayCrudeoilValues(self, td_obj):
+    #     try:
+    #        end_date = datetime.datetime.today() - timedelta(days=1)
+
+
     def getPresentDayValue(self,td_obj):
         try:
             barsize = '1min'
@@ -150,7 +154,101 @@ class StockMarket:
         return None
 
     """
-    Algorithm functions 
+    These functions are for placing, cancelling  the  order
+    """
+    def placeOrder(self, difference, quantity,  target, stop_loss, order_value, side, fyers):
+        try:
+            number_of_stocks = quantity*25  #banknifty lot size is in 25 multiples. 
+            if side > 0:
+                stop_price = int(order_value) - 2
+            else:
+                stop_price = int(order_value) + 1
+            response = fyers.place_orders(
+                token = self.access_token,
+                data = {
+                    "symbol" : "NSE:" + "BANKNIFTY21AUGFUT",
+                    "qty" : number_of_stocks,
+                    "type" : 4,
+                    "side" : side,
+                    "productType" : "BO",
+                    "limitPrice" : int(order_value),
+                    "stopPrice" : int(stop_price),    
+                    "disclosedQty" : 0,
+                    "validity" : "DAY",
+                    "offlineOrder" : "False",
+                    "stopLoss" : int(difference),
+                    "takeProfit" : int(difference),
+                    }
+                )
+            print(response)
+            self.fyers_order_executed_message = response['message']
+            #handling the response
+            if response is None:
+                print("Something worng with placing order. place order response is None")
+                self.place_order_error = 1
+                return 0
+            elif response['code'] != 200:
+                print("Something worng with placing order. place ordr response is None")
+                print("place order code is: %s"%(response['code']))
+                self.place_order_error = 1
+                return 0
+            elif response['code'] == 200:
+                order_id = response['data']['id']
+                return order_id
+        except Exception as e:
+            print(e)
+            return 0
+
+    def getOrderStatus(self, orderId, fyers):
+        response = fyers.order_status(
+            token = self.access_token,
+            data = {
+            "id" : orderId
+            }
+            )
+        return response
+
+    def cancelOrder(self,orderId,fyers):
+        response = fyers.delete_orders(
+            token = self.access_token,
+            data = {
+            "id" : orderId
+            }
+            )
+        return response
+
+    def closeOtherOrderIfOneExecutes(self,user, fyers):
+        response_1 = 0
+        response_2 = 0
+        today_min = datetime.datetime.combine(datetime.date.today(), datetime.time.min)
+        today_max = datetime.datetime.combine(datetime.date.today(), datetime.time.max)
+        db_records = UserLotsInput.objects.filter(user_id=user.id, date_added__range=(today_min, today_max))
+        number_of_records = 0
+        for each_record in db_records.iterator():
+            order_id_1 = each_record.order_id_1
+            order_id_2 = each_record.order_id_2
+            res_1 = self.getOrderStatus(order_id_1,fyers)
+            res_2 = self.getOrderStatus(order_id_2,fyers)
+            number_of_records += 1
+        if number_of_records == 0 :
+            return False
+        if response_1 == 0 or response_2 == 0 :
+            return False
+        else:
+            if res_1['code'] == 200 and res_2['code']==200:
+                order_id_1_status = res_1['data']['orderDetails']['status']
+                order_id_2_status = res_2['data']['orderDetails']['status']
+                if order_id_1_status == 6 and order_id_2_status != 6:
+                    cancelOrder(order_id_1, fyers)
+                    return True
+                elif order_id_2_status == 6 and order_id_1_status != 6:
+                    cancelOrder(order_id_2, fyers)
+                    return True
+            else:
+                return False
+    
+    """
+    BankNiftyBot Algorithm functions 
     """
     def calculateOPValues(self):
         try:
@@ -305,103 +403,14 @@ class StockMarket:
         return order_id_1, order_id_2
 
     """
-    These functions are for placing, cancelling  the  order
+    crude oil bot 
     """
-    def placeOrder(self, difference, quantity,  target, stop_loss, order_value, side, fyers):
-        try:
-            number_of_stocks = quantity*25  #banknifty lot size is in 25 multiples. 
-            if side > 0:
-                stop_price = int(order_value) - 2
-            else:
-                stop_price = int(order_value) + 1
-            response = fyers.place_orders(
-                token = self.access_token,
-                data = {
-                    "symbol" : "NSE:" + "BANKNIFTY21AUGFUT",
-                    "qty" : number_of_stocks,
-                    "type" : 4,
-                    "side" : side,
-                    "productType" : "BO",
-                    "limitPrice" : int(order_value),
-                    "stopPrice" : int(stop_price),    
-                    "disclosedQty" : 0,
-                    "validity" : "DAY",
-                    "offlineOrder" : "False",
-                    "stopLoss" : int(difference),
-                    "takeProfit" : int(difference),
-                    }
-                )
-            print(response)
-            self.fyers_order_executed_message = response['message']
-            #handling the response
-            if response is None:
-                print("Something worng with placing order. place order response is None")
-                self.place_order_error = 1
-                return 0
-            elif response['code'] != 200:
-                print("Something worng with placing order. place ordr response is None")
-                print("place order code is: %s"%(response['code']))
-                self.place_order_error = 1
-                return 0
-            elif response['code'] == 200:
-                order_id = response['data']['id']
-                return order_id
-        except Exception as e:
-            print(e)
-            return 0
-
-    def getOrderStatus(self, orderId, fyers):
-        response = fyers.order_status(
-            token = self.access_token,
-            data = {
-            "id" : orderId
-            }
-            )
-        return response
-
-    def cancelOrder(self,orderId,fyers):
-        response = fyers.delete_orders(
-            token = self.access_token,
-            data = {
-            "id" : orderId
-            }
-            )
-        return response
-
-    def closeOtherOrderIfOneExecutes(self,user, fyers):
-        response_1 = 0
-        response_2 = 0
-        today_min = datetime.datetime.combine(datetime.date.today(), datetime.time.min)
-        today_max = datetime.datetime.combine(datetime.date.today(), datetime.time.max)
-        db_records = UserLotsInput.objects.filter(user_id=user.id, date_added__range=(today_min, today_max))
-        number_of_records = 0
-        for each_record in db_records.iterator():
-            order_id_1 = each_record.order_id_1
-            order_id_2 = each_record.order_id_2
-            res_1 = self.getOrderStatus(order_id_1,fyers)
-            res_2 = self.getOrderStatus(order_id_2,fyers)
-            number_of_records += 1
-        if number_of_records == 0 :
-            return False
-        if response_1 == 0 or response_2 == 0 :
-            return False
-        else:
-            if res_1['code'] == 200 and res_2['code']==200:
-                order_id_1_status = res_1['data']['orderDetails']['status']
-                order_id_2_status = res_2['data']['orderDetails']['status']
-                if order_id_1_status == 6 and order_id_2_status != 6:
-                    cancelOrder(order_id_1, fyers)
-                    return True
-                elif order_id_2_status == 6 and order_id_1_status != 6:
-                    cancelOrder(order_id_2, fyers)
-                    return True
-            else:
-                return False 
 
     def run(self, quantity, user):
-        self.getAccessToken()
+        # self.getAccessToken()
         fyers = self.generateAccess()
-        if self.accesstoken_exception == 0 and self.generateaccess_exception == 0:
+        # if self.accesstoken_exception == 0 and self.generateaccess_exception == 0:
+        if self.access_token:
             td_obj = TD(USERNAME, PASSWORD)
             self.getPreviousDayValues(td_obj)
             self.getPresentDayValue(td_obj)
@@ -435,3 +444,28 @@ class StockMarket:
 
 #algo_obj = StockMarket()
 #algo_obj.run(1)
+# fyers = fyersModel.FyersModel(client_id="XC00383", token=access_token)
+
+
+# def getAccessToken(self):
+#     try:
+#         url = 'https://api.fyers.in/api/v1/token'
+#         requestParams = {
+#         "fyers_id":'XC00383',#self.fyers_id,
+#         "password":'Kishore@1126',#self.fyers_password,
+#         "pan_dob":'10-05-1972',#self.fyers_pan_dob,
+#         "appId":"VY1T8XB90T",
+#         "create_cookie":False}
+#         response = requests.post(url, json = requestParams )
+#         print(response)
+#         data = json.loads(response.text)["Url"]
+#         source = data.find("access_token=") + len("access_token=")
+#         self.access_token = data[source:]
+#         self.accesstoken_exception = 0
+
+#     except Exception as e:
+#         print("Error in getAccessToken")
+#         print(e)
+#         self.accesstoken_exception = 1
+
+# getAccessToken()
