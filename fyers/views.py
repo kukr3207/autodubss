@@ -51,7 +51,7 @@ def bankniftybot(request):
 				#algo_obj = StockMarket()
 				#algo_obj.run(1)
 				access_token = request.session['fyers_access_token']
-				c.handle(access_token,#banknifty_form_obj.fyers_id,banknifty_form_obj.fyers_password,banknifty_form_obj.fyers_pan_dob,
+				c.bankniftyScheduler(access_token,#banknifty_form_obj.fyers_id,banknifty_form_obj.fyers_password,banknifty_form_obj.fyers_pan_dob,
 						banknifty_form_obj.number_of_lots,request.user,stock,banknifty_form_obj)
 			else:
 				print("ERROR : Form is invalid")
@@ -74,10 +74,11 @@ def crudeoilbot(request):
 				crudeoil_form_obj = crudeoil_form.save(commit=False) # Return an object without saving to the DB
 				crudeoil_form_obj.user_id = User.objects.get(pk=request.user.id) # Add an author field which will contain current user's id
 				# print(form_obj.trading_platform)
-				print("&&&&&&&&&&&&&&&&&&&&&&&&&")
-				# c = Command()  
-				# stock = "  "
-				# c.handle(form_obj.fyers_id,form_obj.fyers_password,form_obj.fyers_pan_dob,form_obj.number_of_lots,request.user,stock,form_obj)
+				c = Command()  
+				stock = "  "
+				access_token = request.session['fyers_access_token']
+				c.crudeoilScheduler(access_token,#banknifty_form_obj.fyers_id,banknifty_form_obj.fyers_password,banknifty_form_obj.fyers_pan_dob,
+						crudeoil_form_obj.number_of_lots,request.user,stock,crudeoil_form_obj)
 			else:
 				print("ERROR : Form is invalid")
 				print(form.errors)

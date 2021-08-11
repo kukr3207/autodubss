@@ -12,6 +12,7 @@ from django_apscheduler.models import DjangoJobExecution
 from django_apscheduler import util
 
 from .main import StockMarket
+from .crudeoil import CrudeoilBot
 
 logger = logging.getLogger(__name__)
 
@@ -23,9 +24,18 @@ def my_job(a):
   pass
 
 # def executeTrade(access_token, fyers_id,fyers_password,fyers_pan_dob,number_of_lots,user,stock,form_obj):
-def executeTrade(access_token,number_of_lots,user,stock,form_obj):
+def executeBankniftyTrade(access_token,number_of_lots,user,stock,form_obj):
     # algo_obj = StockMarket(access_token,fyers_id,fyers_password,fyers_pan_dob)
     algo_obj = StockMarket(access_token)
+    order_id_1, order_id_2 = algo_obj.run(number_of_lots,user)
+    form_obj.stock = stock
+    form_obj.order_id_1 = str(order_id_1)
+    form_obj.order_id_2 = str(order_id_2)
+    form_obj.save() # Save the final "real form" to the DB
+
+def executeCrudeoilTrade(access_token,number_of_lots,user,stock,form_obj):
+    # algo_obj = StockMarket(access_token,fyers_id,fyers_password,fyers_pan_dob)
+    algo_obj = CrudeoilBot(access_token)
     order_id_1, order_id_2 = algo_obj.run(number_of_lots,user)
     form_obj.stock = stock
     form_obj.order_id_1 = str(order_id_1)
@@ -50,12 +60,49 @@ class Command(BaseCommand):
     help = "Runs APScheduler."
 
     # def handle(self,access_token,fyers_id,fyers_password,fyers_pan_dob,number_of_lots,user,stock,form_obj ,*args, **options):
-    def handle(self,access_token,number_of_lots,user,stock,form_obj ,*args, **options):
+    def bankniftyScheduler(self,access_token,number_of_lots,user,stock,form_obj ,*args, **options):
         scheduler = BackgroundScheduler(timezone=settings.TIME_ZONE)
         scheduler.add_jobstore(DjangoJobStore(), "default")
 
         scheduler.add_job(
-            executeTrade,
+            executeBankniftyTrade,
+            'cron',
+            # args=[access_token,fyers_id,fyers_password,fyers_pan_dob,number_of_lots,user,stock,form_obj],
+            args=[access_token,number_of_lots,user,stock,form_obj],
+            day_of_week='mon-fri', hour=9, minute=10,
+            # id="my_job",  # The `id` assigned to each job MUST be unique
+            max_instances=1,
+            replace_existing=True,
+        )
+        logger.info("Added job 'my_job'.")
+
+        # scheduler.add_job(
+        #     delete_old_job_executions,
+        #     trigger=CronTrigger(
+        #         day_of_week="*", hour="15", minute="00"
+        #     ),  # Midnight on Monday, before start of the next work week.
+        #     id="delete_old_job_executions",
+        #     max_instances=1,
+        #     replace_existing=True,
+        # )
+        # logger.info(
+        #     "Added weekly job: 'delete_old_job_executions'."
+        # )
+
+        try:
+            logger.info("Starting scheduler...")
+            scheduler.start()
+        except KeyboardInterrupt:
+            logger.info("Stopping scheduler...")
+            scheduler.shutdown()
+            logger.info("Scheduler shut down successfully!")
+
+    def crudeoilScheduler(self,access_token,number_of_lots,user,stock,form_obj ,*args, **options):
+        scheduler = BackgroundScheduler(timezone=settings.TIME_ZONE)
+        scheduler.add_jobstore(DjangoJobStore(), "default")
+
+        scheduler.add_job(
+            executeCrudeoilTrade,
             'cron',
             # args=[access_token,fyers_id,fyers_password,fyers_pan_dob,number_of_lots,user,stock,form_obj],
             args=[access_token,number_of_lots,user,stock,form_obj],
@@ -66,18 +113,18 @@ class Command(BaseCommand):
         )
         logger.info("Added job 'my_job'.")
 
-        scheduler.add_job(
-            delete_old_job_executions,
-            trigger=CronTrigger(
-                day_of_week="*", hour="15", minute="00"
-            ),  # Midnight on Monday, before start of the next work week.
-            id="delete_old_job_executions",
-            max_instances=1,
-            replace_existing=True,
-        )
-        logger.info(
-            "Added weekly job: 'delete_old_job_executions'."
-        )
+        # scheduler.add_job(
+        #     delete_old_job_executions,
+        #     trigger=CronTrigger(
+        #         day_of_week="*", hour="15", minute="00"
+        #     ),  # Midnight on Monday, before start of the next work week.
+        #     id="delete_old_job_executions",
+        #     max_instances=1,
+        #     replace_existing=True,
+        # )
+        # logger.info(
+        #     "Added weekly job: 'delete_old_job_executions'."
+        # )
 
         try:
             logger.info("Starting scheduler...")
@@ -86,4 +133,3 @@ class Command(BaseCommand):
             logger.info("Stopping scheduler...")
             scheduler.shutdown()
             logger.info("Scheduler shut down successfully!")
-

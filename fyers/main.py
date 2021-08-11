@@ -402,9 +402,6 @@ class StockMarket:
             order_id_2 = 0
         return order_id_1, order_id_2
 
-    """
-    crude oil bot 
-    """
 
     def run(self, quantity, user):
         # self.getAccessToken()
