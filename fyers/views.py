@@ -10,11 +10,16 @@ from .fyers_authentication import fyersOAuth
 from .cron import Command
 import json
 import datetime
+from algo_trading.settings import TIME_ZONE
 from django.utils import timezone
+from django.utils.timezone import activate
+activate(TIME_ZONE)
 from datetime import timedelta
+import pytz
 from django.views.decorators.csrf import csrf_exempt   
 from .crudeoil import CrudeoilBot                                        
 # Create your views here.
+
 
 @login_required
 @csrf_exempt
@@ -56,10 +61,10 @@ def bankniftybot(request):
 				banknifty_form_obj.user_id = User.objects.get(pk=request.user.id) # Add an author field which will contain current user's id
 				stock = "  "
 				access_token = request.session['fyers_access_token']
-				current_time = timezone.now().time()
+				current_time = datetime.datetime.now(tz=pytz.timezone('Asia/Kolkata')).time()
 				banknifty_execution_time = current_time.replace(hour=9,minute=18,second=0)
 				market_closing_time = current_time.replace(hour=15,minute=30,second=0)
-				print(current_time,banknifty_execution_time)
+				print(current_time,banknifty_execution_time,market_closing_time)
 				if (current_time < banknifty_execution_time) or (current_time > market_closing_time):
 					c = Command()  
 					c.bankniftyScheduler(access_token,#banknifty_form_obj.fyers_id,banknifty_form_obj.fyers_password,banknifty_form_obj.fyers_pan_dob,
@@ -90,14 +95,16 @@ def crudeoilbot(request):
 				# print(form_obj.trading_platform) 
 				stock = "  "
 				access_token = request.session['fyers_access_token']
-				current_time = timezone.now().time()
+				current_time = datetime.datetime.now(tz=pytz.timezone('Asia/Kolkata')).time()
 				crudeoil_execution_time = current_time.replace(hour=15,minute=40,second=0)
 				market_closing_time = current_time.replace(hour=22,minute=0,second=0)
+				print(current_time,crudeoil_execution_time,market_closing_time)
 				if (current_time < crudeoil_execution_time) or (current_time > market_closing_time):
 					c = Command() 
 					c.crudeoilScheduler(access_token,#banknifty_form_obj.fyers_id,banknifty_form_obj.fyers_password,banknifty_form_obj.fyers_pan_dob,
 							crudeoil_form_obj.number_of_lots,request.user,stock,crudeoil_form_obj)
 				else:
+					print("asdfghjkwertyui@@@@@@@@@@@@@@@")
 					algo_obj = CrudeoilBot(access_token)
 					order_id_1, order_id_2 = algo_obj.run(crudeoil_form_obj.number_of_lots,request.user)
 					crudeoil_form_obj.stock = stock

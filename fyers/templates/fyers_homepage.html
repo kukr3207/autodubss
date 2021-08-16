@@ -6,6 +6,53 @@
 
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<style>
+		#snackbar {
+			visibility: hidden; /* Hidden by default. Visible on click */
+			min-width: 250px; /* Set a default minimum width */
+			margin-left: -125px; /* Divide value of min-width by 2 */
+			background-color: #333; /* Black background color */
+			color: #fff; /* White text color */
+			text-align: center; /* Centered text */
+			border-radius: 2px; /* Rounded borders */
+			padding: 16px; /* Padding */
+			position: fixed; /* Sit on top of the screen */
+			z-index: 1; /* Add a z-index if needed */
+			left: 50%; /* Center the snackbar */
+			bottom: 30px; /* 30px from the bottom */
+			}
+
+			/* Show the snackbar when clicking on a button (class added with JavaScript) */
+			#snackbar.show {
+			visibility: visible; /* Show the snackbar */
+			/* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+			However, delay the fade out process for 2.5 seconds */
+			-webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+			animation: fadein 0.5s, fadeout 0.5s 2.5s;
+			}
+
+			/* Animations to fade the snackbar in and out */
+			@-webkit-keyframes fadein {
+			from {bottom: 0; opacity: 0;}
+			to {bottom: 30px; opacity: 1;}
+			}
+
+			@keyframes fadein {
+			from {bottom: 0; opacity: 0;}
+			to {bottom: 30px; opacity: 1;}
+			}
+
+			@-webkit-keyframes fadeout {
+			from {bottom: 30px; opacity: 1;}
+			to {bottom: 0; opacity: 0;}
+			}
+
+			@keyframes fadeout {
+			from {bottom: 30px; opacity: 1;}
+			to {bottom: 0; opacity: 0;}
+			}
+	</style>
+
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -22,7 +69,7 @@
 				<form id="bankniftybot_form" method="POST" style="display:none" class="form-group" action="{% url 'bankniftybot_fyers' %}">
 					{% csrf_token %}
 					{{banknifty_form.as_p}}
-					<input class="btn btn-danger" type="submit" name="" value="Submit" />
+					<input class="btn btn-danger" type="submit" name="" value="Submit" onclick="displayToast()"/>
 				</form>
 			</div>
 			<div class="col-2"></div>
@@ -34,10 +81,14 @@
 				<form id="crudeoilbot_form" method="POST" style="display:none" class="form-group" action="{% url 'crudeoilbot_fyers' %}">
 					{% csrf_token %}
 					{{crudeoil_form.as_p}}
-					<input class="btn btn-danger" type="submit" name="" value="Submit" />
+					<input class="btn btn-danger" type="submit" name="" value="Submit" onclick="displayToast()"/>
 				</form>
 			</div>
 		</div>
+	</div>
+	<div id="snackbar" style="display: none;">
+		Your order is taken successfully.<br>
+		Do not re submit the form.
 	</div>
 	<!-- <div class="container align-items-center mt-20">
 		<h5 id="MonthlyReportText">Your Monthly report appears here.</h5>
@@ -66,6 +117,7 @@
 		</table>
 	</div> -->
 	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -95,6 +147,17 @@
 			    document.getElementById("crudeoil_introText").innerHTML = "Execute again";
 			    console.log("harsha");
 			};
+	</script>
+	<script type="text/javascript">
+		function displayToast() {
+		// Get the snackbar DIV
+		var x = document.getElementById("snackbar");
+		x.className = "show";
+		x.style.display = "inline";
+		// Add the "show" class to DIV
+		// After 3 seconds, remove the show class from DIV
+		setTimeout(function(){ x.className = x.className.replace("show", ""); }, 5000);
+		}
 	</script>
 </body>
 </html>
