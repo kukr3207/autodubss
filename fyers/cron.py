@@ -45,7 +45,7 @@ def executeCrudeoilTrade(access_token,number_of_lots,user,stock,form_obj):
 # The `close_old_connections` decorator ensures that database connections, that have become
 # unusable or are obsolete, are closed before and after our job has run.
 @util.close_old_connections
-def delete_old_job_executions(max_age=604_800):
+def delete_old_job_executions(max_age):
   """
   This job deletes APScheduler job execution entries older than `max_age` from the database.
   It helps to prevent the database from filling up with old historical records that are no
@@ -69,7 +69,7 @@ class Command(BaseCommand):
             'cron',
             # args=[access_token,fyers_id,fyers_password,fyers_pan_dob,number_of_lots,user,stock,form_obj],
             args=[access_token,number_of_lots,user,stock,form_obj],
-            day_of_week='mon-fri', hour=9, minute=10,
+            day_of_week='mon-fri', hour=9, minute=18,
             # id="my_job",  # The `id` assigned to each job MUST be unique
             max_instances=1,
             replace_existing=True,
@@ -78,9 +78,10 @@ class Command(BaseCommand):
 
         # scheduler.add_job(
         #     delete_old_job_executions,
+        #     args = [19800],
         #     trigger=CronTrigger(
-        #         day_of_week="*", hour="15", minute="00"
-        #     ),  # Midnight on Monday, before start of the next work week.
+        #         day_of_week="*", hour="14", minute="50"
+        #     ),  
         #     id="delete_old_job_executions",
         #     max_instances=1,
         #     replace_existing=True,
@@ -106,7 +107,7 @@ class Command(BaseCommand):
             'cron',
             # args=[access_token,fyers_id,fyers_password,fyers_pan_dob,number_of_lots,user,stock,form_obj],
             args=[access_token,number_of_lots,user,stock,form_obj],
-            day_of_week='mon-fri', hour=9, minute=18,
+            day_of_week='mon-fri', hour=15, minute=40,
             # id="my_job",  # The `id` assigned to each job MUST be unique
             max_instances=1,
             replace_existing=True,
