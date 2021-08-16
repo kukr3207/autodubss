@@ -94,15 +94,15 @@ is_production = 1
 # }
 is_production = 1
 if is_production == 1:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'postgres',
-            'USER': 'postgres',
-            # 'HOST': 'db', # set in docker-compose.yml
-            # 'PORT': 5432 # default postgres port
-        }
-    }
+    # DATABASES = {
+    #     'default': {
+    #         'ENGINE': 'django.db.backends.postgresql',
+    #         'NAME': 'postgres',
+    #         'USER': 'postgres',
+    #         # 'HOST': 'db', # set in docker-compose.yml
+    #         # 'PORT': 5432 # default postgres port
+    #     }
+    # }
     DATABASE_URL = os.environ.get('DATABASE_URL')
     db_from_env = dj_database_url.config(default=DATABASE_URL, conn_max_age=500, ssl_require=True)
     DATABASES['default'].update(db_from_env)
