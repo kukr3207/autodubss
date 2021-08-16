@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
-import dj_database_url
+import dj_database_urln
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -76,10 +76,10 @@ WSGI_APPLICATION = 'algo_trading.wsgi.application'
 
 # for heroku db
 is_production = 1
-if is_production == 0:
-    db_path = os.path.join(BASE_DIR, 'db.sqlite3')
-else:
-    db_path = '/db.sqlite3'
+# if is_production == 0:
+#     db_path = os.path.join(BASE_DIR, 'db.sqlite3')
+# else:
+#     db_path = '/db.sqlite3'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 # DATABASES = {
@@ -92,19 +92,30 @@ else:
 #         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
 #     }
 # }
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'HOST': 'db', # set in docker-compose.yml
-        'PORT': 5432 # default postgres port
+is_production = 1
+if is_production == 1:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'postgres',
+            'USER': 'postgres',
+            # 'HOST': 'db', # set in docker-compose.yml
+            # 'PORT': 5432 # default postgres port
+        }
     }
-}
-DATABASE_URL = os.environ.get('DATABASE_URL')
-db_from_env = dj_database_url.config(default=DATABASE_URL, conn_max_age=500, ssl_require=True)
-DATABASES['default'].update(db_from_env)
+    DATABASE_URL = os.environ.get('DATABASE_URL')
+    db_from_env = dj_database_url.config(default=DATABASE_URL, conn_max_age=500, ssl_require=True)
+    DATABASES['default'].update(db_from_env)
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'postgres',
+            'USER': 'postgres',
+            'HOST': 'db', # set in docker-compose.yml
+            'PORT': 5432 # default postgres port
+        }
+    }
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
