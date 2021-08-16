@@ -21,4 +21,4 @@ EXPOSE 8000
 
 WORKDIR ./app
 
-CMD gunicorn hello_django.wsgi:application --bind 0.0.0.0:$PORT
+CMD gunicorn algo_trading.wsgi:application --bind 0.0.0.0:$PORT
