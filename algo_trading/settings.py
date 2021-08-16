@@ -97,21 +97,22 @@ if is_production == 1:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'postgres',
-            'USER': 'postgres',
-            # 'HOST': 'db', # set in docker-compose.yml
-            # 'PORT': 5432 # default postgres port
+            'NAME': 'dbrmonn1elttr0',
+            'USER': 'mtvpdbwityflig',
+            'PASSWORD':'6dd07d00ef25150ee78daaa68e81a3e2ee38dfcea07993895044618c9c5ff5df',
+            'HOST': 'ec2-54-170-163-224.eu-west-1.compute.amazonaws.com', # set in docker-compose.yml
+            'PORT': 5432 # default postgres port
         }
     }
-    import dj_database_url
-    DATABASE_URL = 'postgresql://<postgresql>'
-    db_from_env = dj_database_url.config(default=DATABASE_URL)
-    DATABASES = {
-        'default': db_from_env,
+    # import dj_database_url
+    # DATABASE_URL = 'postgresql://<postgresql>'
+    # db_from_env = dj_database_url.config(default=DATABASE_URL)
+    # DATABASES = {
+    #     'default': db_from_env,
 
-    }
-    # DATABASES['default'].update(db_from_env)
-    DATABASES['default']['CONN_MAX_AGE'] = 500
+    # }
+    # # DATABASES['default'].update(db_from_env)
+    # DATABASES['default']['CONN_MAX_AGE'] = 500
 else:
     DATABASES = {
         'default': {
