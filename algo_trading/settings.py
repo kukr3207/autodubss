@@ -78,7 +78,7 @@ is_production = 1
 if is_production == 0:
     db_path = os.path.join(BASE_DIR, 'db.sqlite3')
 else:
-    db_path = '/db/db.sqlite3'
+    db_path = '/db.sqlite3'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 DATABASES = {
