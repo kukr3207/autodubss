@@ -93,7 +93,6 @@ def crudeoilbot(request):
 				current_time = timezone.now().time()
 				crudeoil_execution_time = current_time.replace(hour=15,minute=40,second=0)
 				market_closing_time = current_time.replace(hour=22,minute=0,second=0)
-				print(current_time,banknifty_execution_time)
 				if (current_time < crudeoil_execution_time) or (current_time > market_closing_time):
 					c = Command() 
 					c.crudeoilScheduler(access_token,#banknifty_form_obj.fyers_id,banknifty_form_obj.fyers_password,banknifty_form_obj.fyers_pan_dob,
