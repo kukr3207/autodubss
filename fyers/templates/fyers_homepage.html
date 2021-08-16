@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>banknifty bot Fyers</title>
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  		<a class="navbar-brand" href="#">BankNifty Trading Bot</a>
+  	</nav>
+  	<br><br>
+	<div class="container align-items-center mb-5 p-5">
+		<div class="row"> 
+			<div class="col-4">
+				<h6 id="banknifty_introText">Execute a Bank Nifty Bot</h6>
+				<div class="container">
+					<button type="button" class="btn btn-primary" onclick="OpenBankniftyFormOnButtonClick()" id="bankniftybot_formbutton"> BankNifty Bot </button>
+				</div>
+				<form id="bankniftybot_form" method="POST" style="display:none" class="form-group" action="{% url 'bankniftybot_fyers' %}">
+					{% csrf_token %}
+					{{banknifty_form.as_p}}
+					<input class="btn btn-danger" type="submit" name="" value="Submit" />
+				</form>
+			</div>
+			<div class="col-2"></div>
+			<div class="col-4">
+				<h6 id="crudeoil_introText">Execute a Crude Oil Bot</h6>
+				<div class="container">
+					<button type="button" class="btn btn-primary" onclick="OpenCrudeoilFormOnButtonClick()" id="crudeoilbot_formbutton" > CrudeOil Bot </button>
+				</div>
+				<form id="crudeoilbot_form" method="POST" style="display:none" class="form-group" action="{% url 'crudeoilbot_fyers' %}">
+					{% csrf_token %}
+					{{crudeoil_form.as_p}}
+					<input class="btn btn-danger" type="submit" name="" value="Submit" />
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- <div class="container align-items-center mt-20">
+		<h5 id="MonthlyReportText">Your Monthly report appears here.</h5>
+		<div class="container">
+			<a class="btn btn-primary" href="{% url 'generateReport' %}">Generate Report</a>
+		</div>
+		<br>
+		<table class="table">
+		  <thead>
+		    <tr>
+		      <th scope="col">Date</th>
+		      <th scope="col">Contract</th>
+		      <th scope="col">Number Of Lots</th>
+			  <th scope="col">P&L</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+			{% for each_record in report %}
+		    <tr>
+				{% for key, value in each_record.items %}
+					<td>{{ value }}</td>
+				{% endfor %}
+		    </tr>
+			{% endfor %}
+		  </tbody>
+		</table>
+	</div> -->
+	
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script type="text/javascript">
+		function OpenBankniftyFormOnButtonClick()
+			{
+			document.getElementById('bankniftybot_form').style.display = '';
+			document.getElementById("bankniftybot_formbutton").style.display = 'none'
+			document.getElementById("banknifty_introText").innerHTML = "Please Enter Number of Lots you want to trade Bank Nifty";
+			}
+			var myform = document.getElementById('toggleAfterClick');
+			myform.onsubmit = function(){
+			    document.getElementById("banknifty_introText").innerHTML = "Please Enter Number of Lots you want to trade Bank Nifty";
+			    console.log("harsha");
+			};
+	</script>
+	<script type="text/javascript">
+		function OpenCrudeoilFormOnButtonClick()
+			{
+			document.getElementById('crudeoilbot_form').style.display = '';
+			document.getElementById("crudeoilbot_formbutton").style.display = 'none'
+			document.getElementById("crudeoil_introText").innerHTML = "Please Enter Number of Lots you want to trade Crude Oil";
+			console.log("harsha2");	
+		}
+			var myform = document.getElementById('toggleAfterClick');
+			myform.onsubmit = function(){
+			    document.getElementById("crudeoil_introText").innerHTML = "Execute again";
+			    console.log("harsha");
+			};
+	</script>
+</body>
+</html>

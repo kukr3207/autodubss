@@ -1,0 +1,10 @@
+build:
+  docker:
+    web: Dockerfile
+run:
+  web: gunicorn algo_trading.wsgi:application --bind 0.0.0.0:$PORT
+
+release:
+  image: web
+  command:
+    - python3 /app/manage.py migrate
