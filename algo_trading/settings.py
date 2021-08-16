@@ -73,18 +73,25 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'algo_trading.wsgi.application'
 
+# for heroku db
+is_production = 1
+if is_production == 0:
+    db_path = os.path.join(BASE_DIR, 'db.sqlite3')
+else:
+    db_path = '/db/db.sqlite3'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'), # Or path to database file if using sqlite3.
+        'NAME': db_path, # Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -95,7 +102,6 @@ DATABASES = {
 #         'PORT': '5432',
 #     }
 # }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
