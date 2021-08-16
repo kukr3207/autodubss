@@ -103,9 +103,10 @@ if is_production == 1:
             # 'PORT': 5432 # default postgres port
         }
     }
-    DATABASE_URL = os.environ.get('DATABASE_URL')
-    db_from_env = dj_database_url.config(default=DATABASE_URL, conn_max_age=500, ssl_require=True)
+    import dj_database_url
+    db_from_env = dj_database_url.config()
     DATABASES['default'].update(db_from_env)
+    DATABASES['default']['CONN_MAX_AGE'] = 500
 else:
     DATABASES = {
         'default': {
