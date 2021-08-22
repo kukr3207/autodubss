@@ -4,9 +4,11 @@ from fyers.models import UserBankniftyFyersRelation, UserCrudeoilFyersRelation, 
 import datetime
 from django.utils import timezone
 from datetime import timedelta
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 @login_required
+@csrf_exempt
 def home(request):
     current_user_id = request.user.id
     subscription_flag = isSubscribed(current_user_id)
@@ -17,10 +19,10 @@ def home(request):
 
 #helper functions
 # helper functions
+@csrf_exempt
 def isSubscribed(user_id):
 	try:
 		user_subscription_relation = UserSubscriptionRelation.objects.get(user_id=user_id).__dict__
-		print(user_subscription_relation['last_subscription_date'])
 		last_subscription_date = user_subscription_relation['last_subscription_date']
 		current_date = timezone.now()
 		if last_subscription_date < (current_date-timedelta(days=30)) :
