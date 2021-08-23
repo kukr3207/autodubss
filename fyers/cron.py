@@ -82,7 +82,7 @@ class Command(BaseCommand):
             'cron',
             # args=[access_token,fyers_id,fyers_password,fyers_pan_dob,number_of_lots,user,stock,form_obj],
             args=[access_token,number_of_lots,user,stock,form_obj],
-            hour=18, minute=30, #day_of_week='',
+            hour=9, minute=18, #day_of_week='',
             # id="my_job",  # The `id` assigned to each job MUST be unique
             replace_existing=True,
             misfire_grace_time=3600,
