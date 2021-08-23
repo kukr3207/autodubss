@@ -6,6 +6,22 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<style type="text/css">
+		@media screen and (min-width: 601px) {
+		  p {
+		    font-size: 30px;
+		    font-size: 1.85vw;
+		  }
+		}
+
+		/* If the screen size is 600px wide or less, set the font-size of <div> to 30px */
+		@media screen and (max-width: 600px) {
+		  p {
+		    font-size: 30px;
+		    font-size: 3.5vw;
+		  }
+		}
+	</style>
 
 </head>
 <body>
@@ -13,14 +29,13 @@
   		<a class="navbar-brand" href="#">Select your Trading Bot</a>
   	</nav>
   	<br><br>
-	<div class="container align-items-center mb-5 p-5">
+	<div class="container align-items-center mb-3 ml-2 p-2">
 		<div class="row"> 
-			<div class="col-4">
-				<h6 class="p-1 mb-2 bg-light text-dark"> Please give inputs to the BANK-NIFTY BOT between 7AM-9:15AM everyday. <br>No orders will be placed after 9:15AM </h6> <br>
-				<h6 id="banknifty_introText">Execute a Bank Nifty Bot</h6>
-				<div class="container">
-					<button type="button" class="btn btn-primary" onclick="OpenBankniftyFormOnButtonClick()" id="bankniftybot_formbutton"> BankNifty Bot </button>
-				</div>
+			<div class="col-sm-4">
+				<p class="p-1 mb-2 bg-light text-dark"> Please give inputs to the BANK-NIFTY BOT between 7AM-9:15AM everyday. <br>No orders will be placed after 9:15AM </p> 
+				<p id="banknifty_introText">Execute a Bank Nifty Bot</p>
+				<button type="button" class="btn btn-primary" onclick="OpenBankniftyFormOnButtonClick()" id="bankniftybot_formbutton"> BankNifty Bot </button>
+				<br>
 				<form id="bankniftybot_form" method="POST" style="display:none" class="form-group" action="{% url 'bankniftybot_fyers' %}">
 					{% csrf_token %}
 					{{banknifty_form.as_p}}
@@ -28,13 +43,11 @@
 				</form>
 				<br>
 			</div>
-			<div class="col-2"></div>
-			<div class="col-4">
-				<h6 class="p-1 mb-2 bg-light text-dark"> Please give inputs to the CRUDE-OIL BOT between 7Am-9:30PM everyday. <br>No orders will be placed after 9:30PM </h6> <br>
-				<h6 id="crudeoil_introText">Execute a Crude Oil Bot</h6>
-				<div class="container">
-					<button type="button" class="btn btn-primary" onclick="OpenCrudeoilFormOnButtonClick()" id="crudeoilbot_formbutton" > CrudeOil Bot </button>
-				</div>
+			<div class="col-sm-2"></div>
+			<div class="col-sm-4">
+				<p class="p-1 mb-2 bg-light text-dark"> Please give inputs to the CRUDE-OIL BOT between 7Am-9:30PM everyday. <br>No orders will be placed after 9:30PM </p>
+				<p id="crudeoil_introText">Execute a Crude Oil Bot</p>
+				<button type="button" class="btn btn-primary" onclick="OpenCrudeoilFormOnButtonClick()" id="crudeoilbot_formbutton" > CrudeOil Bot </button><br>
 				<form id="crudeoilbot_form" method="POST" style="display:none" class="form-group" action="{% url 'crudeoilbot_fyers' %}">
 					{% csrf_token %}
 					{{crudeoil_form.as_p}}
