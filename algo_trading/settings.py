@@ -182,3 +182,11 @@ LOGIN_REDIRECT_URL = '/'
 
 import os
 port = int(os.environ.get("PORT", 8000))
+
+
+DATABASES['default']['CONN_MAX_AGE'] = 0
+
+
+
+
+
