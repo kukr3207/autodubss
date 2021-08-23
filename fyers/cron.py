@@ -63,15 +63,15 @@ class Command(BaseCommand):
     # def handle(self,access_token,fyers_id,fyers_password,fyers_pan_dob,number_of_lots,user,stock,form_obj ,*args, **options):
     def bankniftyScheduler(self,access_token,number_of_lots,user,stock,form_obj ,*args, **options):
         scheduler = BackgroundScheduler({
-            'apscheduler.executors.default': {
-            'class': 'apscheduler.executors.pool:ThreadPoolExecutor',
-            'max_workers': '20'
-                },
-            'apscheduler.executors.processpool': {
-                'type': 'processpool',
-                'max_workers': '3'
-                },
-                'apscheduler.job_defaults.max_instances': '12',
+            # 'apscheduler.executors.default': {
+            # 'class': 'apscheduler.executors.pool:ThreadPoolExecutor',
+            # 'max_workers': '20'
+            #     },
+            # 'apscheduler.executors.processpool': {
+            #     'type': 'processpool',
+            #     'max_workers': '3'
+            #     },
+            #     'apscheduler.job_defaults.max_instances': '12',
                 'misfire_grace_time': 5*60,
                 'apscheduler.timezone': settings.TIME_ZONE,
             })
@@ -82,7 +82,7 @@ class Command(BaseCommand):
             'cron',
             # args=[access_token,fyers_id,fyers_password,fyers_pan_dob,number_of_lots,user,stock,form_obj],
             args=[access_token,number_of_lots,user,stock,form_obj],
-            hour=17, minute=47, #day_of_week='',
+            hour=18, minute=30, #day_of_week='',
             # id="my_job",  # The `id` assigned to each job MUST be unique
             replace_existing=True,
             misfire_grace_time=3600,
@@ -112,7 +112,10 @@ class Command(BaseCommand):
             logger.info("Scheduler shut down successfully!")
 
     def crudeoilScheduler(self,access_token,number_of_lots,user,stock,form_obj ,*args, **options):
-        scheduler = BackgroundScheduler(timezone=settings.TIME_ZONE)
+        scheduler = BackgroundScheduler({
+            'misfire_grace_time': 5*60,
+            'apscheduler.timezone': settings.TIME_ZONE,
+            })
         scheduler.add_jobstore(DjangoJobStore(), "default")
 
         scheduler.add_job(

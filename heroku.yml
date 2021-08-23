@@ -2,7 +2,7 @@ build:
   docker:
     web: Dockerfile
 run:
-  web: gunicorn algo_trading.wsgi:application --bind 0.0.0.0:$PORT
+  web: gunicorn algo_trading.wsgi:application --bind 0.0.0.0:$PORT --preload
 
 release:
   image: web
