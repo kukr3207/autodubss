@@ -101,7 +101,8 @@ if is_production == 1:
             'USER': 'mtvpdbwityflig',
             'PASSWORD':'6dd07d00ef25150ee78daaa68e81a3e2ee38dfcea07993895044618c9c5ff5df',
             'HOST': 'ec2-54-170-163-224.eu-west-1.compute.amazonaws.com', # set in docker-compose.yml
-            'PORT': 5432 # default postgres port
+            'PORT': 5432 # default postgres port,
+            'CONN_MAX_AGE': 70
         }
     }
     # import dj_database_url
@@ -182,10 +183,6 @@ LOGIN_REDIRECT_URL = '/'
 
 import os
 port = int(os.environ.get("PORT", 8000))
-
-
-DATABASES['default']['CONN_MAX_AGE'] = 0
-
 
 
 

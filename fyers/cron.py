@@ -25,6 +25,7 @@ def my_job(a):
 
 # def executeTrade(access_token, fyers_id,fyers_password,fyers_pan_dob,number_of_lots,user,stock,form_obj):
 def executeBankniftyTrade(access_token,number_of_lots,user,stock,form_obj):
+    print("hiiiiiiiiiqwweeeertyuioertyuertyuertyu")
     # algo_obj = StockMarket(access_token,fyers_id,fyers_password,fyers_pan_dob)
     algo_obj = StockMarket(access_token)
     order_id_1, order_id_2 = algo_obj.run(number_of_lots,user)
@@ -71,6 +72,7 @@ class Command(BaseCommand):
                 'max_workers': '3'
                 },
                 'apscheduler.job_defaults.max_instances': '12',
+                'misfire_grace_time': 5*60,
                 'apscheduler.timezone': settings.TIME_ZONE,
             })
         scheduler.add_jobstore(DjangoJobStore(), "default")
@@ -80,9 +82,8 @@ class Command(BaseCommand):
             'cron',
             # args=[access_token,fyers_id,fyers_password,fyers_pan_dob,number_of_lots,user,stock,form_obj],
             args=[access_token,number_of_lots,user,stock,form_obj],
-            hour=15, minute=28, #day_of_week='',
+            hour=17, minute=47, #day_of_week='',
             # id="my_job",  # The `id` assigned to each job MUST be unique
-            max_instances=3,
             replace_existing=True,
             misfire_grace_time=3600,
         )
