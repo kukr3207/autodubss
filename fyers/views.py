@@ -75,8 +75,8 @@ def bankniftybot(request):
 				banknifty_execution_time = current_time.replace(hour=9,minute=18,second=0)
 				market_closing_time = current_time.replace(hour=15,minute=30,second=0)
 				print(current_time,banknifty_execution_time,market_closing_time)
-				if (current_time < banknifty_execution_time) or (current_time > market_closing_time):
-				# if True:
+				# if (current_time < banknifty_execution_time) or (current_time > market_closing_time):
+				if True:
 					c = Command()  
 					c.bankniftyScheduler(access_token,#banknifty_form_obj.fyers_id,banknifty_form_obj.fyers_password,banknifty_form_obj.fyers_pan_dob,
 							banknifty_form_obj.number_of_lots,request.user,stock,banknifty_form_obj)
@@ -125,7 +125,9 @@ def crudeoilbot(request):
 					crudeoil_form_obj.order_id_1 = str(order_id_1)
 					crudeoil_form_obj.order_id_2 = str(order_id_2)
 					crudeoil_form_obj.save() # Save the final "real form" to the DB
-					messages.success(request, mark_safe('Crude-Oil order submitted successfully. <br/> Order will be placed with few minutes'))
+					print(order_id_1,order_id_2)
+					print("@@@@@@@@@@@@@@@")
+					messages.success(request, mark_safe('Crude-Oil order submitted successfully. <br/> Order will be placed within few minutes'))
 			else:
 				print("ERROR : Form is invalid")
 				print(form.errors)

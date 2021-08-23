@@ -94,7 +94,7 @@ class CrudeoilBot():
             response = fyers.place_orders(
                 token = self.access_token,
                 data = {
-                    "symbol" : "MCX:" + "CRUDEOIL21AUGFUT",
+                    "symbol" : "MCX:" + "CRUDEOIL21SEPFUT",
                     "qty" : number_of_stocks,
                     "type" : 4,
                     "side" : side,

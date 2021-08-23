@@ -61,7 +61,18 @@ class Command(BaseCommand):
 
     # def handle(self,access_token,fyers_id,fyers_password,fyers_pan_dob,number_of_lots,user,stock,form_obj ,*args, **options):
     def bankniftyScheduler(self,access_token,number_of_lots,user,stock,form_obj ,*args, **options):
-        scheduler = BackgroundScheduler(timezone=settings.TIME_ZONE)
+        scheduler = BackgroundScheduler({
+            'apscheduler.executors.default': {
+            'class': 'apscheduler.executors.pool:ThreadPoolExecutor',
+            'max_workers': '20'
+                },
+            'apscheduler.executors.processpool': {
+                'type': 'processpool',
+                'max_workers': '3'
+                },
+                'apscheduler.job_defaults.max_instances': '12',
+                'apscheduler.timezone': settings.TIME_ZONE,
+            })
         scheduler.add_jobstore(DjangoJobStore(), "default")
 
         scheduler.add_job(
@@ -71,8 +82,9 @@ class Command(BaseCommand):
             args=[access_token,number_of_lots,user,stock,form_obj],
             hour=9, minute=18, #day_of_week='',
             # id="my_job",  # The `id` assigned to each job MUST be unique
-            max_instances=1,
-            replace_existing=False,
+            max_instances=3,
+            replace_existing=True,
+            misfire_grace_time=3600,
         )
         logger.info("Added job 'my_job'.")
 
