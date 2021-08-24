@@ -184,6 +184,9 @@ LOGIN_REDIRECT_URL = '/'
 import os
 port = int(os.environ.get("PORT", 8000))
 
-
+CRONJOBS = [
+    ('48 3 * * *', 'fyers.banknifty_cron.executeBankniftyOrders','>> /app/logs_banknifty.txt'),
+    ('40 3 * * *', 'fyers.banknifty_cron.executeBankniftyOrders','>> /app/logs_crudeoil.txt'),
+]
 
 

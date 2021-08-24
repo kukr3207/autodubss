@@ -16,13 +16,7 @@ class UserCrudeoilFyersRelation(models.Model):
 	date_added = models.DateTimeField(auto_now_add=True)
 	stock = models.CharField(max_length=300, null=True, choices=STOCK_CHOICES,)
 	number_of_lots = models.IntegerField()
-	order_id = models.CharField(max_length=300, null=True)
-	value = models.IntegerField(null=True)
-	p_and_l = models.IntegerField(null=True)
-	fyers_id = models.CharField(max_length=300, null=True)
-	fyers_password = models.CharField(max_length=300, null=True)
-	fyers_pan_dob = models.CharField(max_length=300, null=True)
-	trading_platform = models.CharField(max_length=300, null=True)
+	fyers_access_token = models.CharField(max_length=300, null=True)
 	def __str__(self):
 		return str(self.user_id)
 
@@ -31,15 +25,7 @@ class UserBankniftyFyersRelation(models.Model):
 	date_added = models.DateTimeField(auto_now_add=True)
 	stock = models.CharField(max_length=300, null=True, choices=STOCK_CHOICES,)
 	number_of_lots = models.IntegerField()
-	order_id_1 = models.CharField(max_length=300, null=True)
-	order_id_2 = models.CharField(max_length=300, null=True)
-	order_closing_type = models.CharField(max_length=50, null=True)
-	value = models.IntegerField(null=True)
-	p_and_l = models.IntegerField(null=True)
-	fyers_id = models.CharField(max_length=300, null=True)
-	fyers_password = models.CharField(max_length=300, null=True)
-	fyers_pan_dob = models.CharField(max_length=300, null=True)
-	trading_platform = models.CharField(max_length=300, null=True)
+	fyers_access_token = models.CharField(max_length=300, null=True)
 	def __str__(self):
 		return str(self.user_id)
 

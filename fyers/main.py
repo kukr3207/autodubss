@@ -7,7 +7,6 @@ from truedata_ws.websocket.TD import TD
 import datetime
 from datetime import timedelta
 from fyers_api import accessToken
-
 from fyers_api import fyersModel
 
 REALTIME_PORT = 8082
@@ -402,7 +401,7 @@ class StockMarket:
             order_id_2 = 0
         return order_id_1, order_id_2
 
-
+    
     def run(self, quantity, user):
         # self.getAccessToken()
         fyers = self.generateAccess()
@@ -437,33 +436,3 @@ class StockMarket:
             order_id_1 = 0
             order_id_2 = 0
             return order_id_1, order_id_2
-
-
-
-#algo_obj = StockMarket()
-#algo_obj.run(1)
-# fyers = fyersModel.FyersModel(client_id="XC00383", token=access_token)
-
-
-# def getAccessToken(self):
-#     try:
-#         url = 'https://api.fyers.in/api/v1/token'
-#         requestParams = {
-#         "fyers_id":'XC00383',#self.fyers_id,
-#         "password":'Kishore@1126',#self.fyers_password,
-#         "pan_dob":'10-05-1972',#self.fyers_pan_dob,
-#         "appId":"VY1T8XB90T",
-#         "create_cookie":False}
-#         response = requests.post(url, json = requestParams )
-#         print(response)
-#         data = json.loads(response.text)["Url"]
-#         source = data.find("access_token=") + len("access_token=")
-#         self.access_token = data[source:]
-#         self.accesstoken_exception = 0
-
-#     except Exception as e:
-#         print("Error in getAccessToken")
-#         print(e)
-#         self.accesstoken_exception = 1
-
-# getAccessToken()

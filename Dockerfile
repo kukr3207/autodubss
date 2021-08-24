@@ -9,6 +9,8 @@ RUN apt-get update && \
 	apt-get install -y python3 && \
 	apt-get install -y python3-pip
 
+RUN apt-get install -y cron
+
 RUN pip install -r /app/requirements.txt
 RUN pip install django_apscheduler
 
