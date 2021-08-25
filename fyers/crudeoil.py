@@ -49,6 +49,7 @@ class CrudeoilBot():
             end_date = datetime.datetime.today() - timedelta(days=1)
             hist_data = td_obj.get_historic_data(self.stock, end_time=end_date, duration='10 D', bar_size=self.previous_day_barsize)
             sorted_hist_data = sorted(hist_data, key = lambda i: i['time'],reverse=True)
+            print(sorted_hist_data)
             self.pre_high = sorted_hist_data[0]['h']
             self.pre_low = sorted_hist_data[0]['l']
             self.pre_close = sorted_hist_data[0]['c']
@@ -62,18 +63,20 @@ class CrudeoilBot():
     def decissionFunction(self,quantity, fyers):
         try:
             #buy order
-            buy_value = self.pre_close + (0.35*(self.pre_high - self.pre_low))
-            difference = 35
+            buy_value = self.pre_close + (0.33*(self.pre_high - self.pre_low))
+            difference = 40
+            stop_difference = 25
             order_value = buy_value
             side = 1
-            order_id_1 = self.placeOrder(difference, quantity, order_value, side, fyers)
+            order_id_1 = self.placeOrder(difference, stop_difference, quantity, order_value, side, fyers)
 
             #sell order
-            sell_value = self.pre_close - (0.35*(self.pre_high - self.pre_low))
-            difference = 35
+            sell_value = self.pre_close - (0.33*(self.pre_high - self.pre_low))
+            difference = 40
+            stop_difference = 25
             order_value = sell_value
             side = -1
-            order_id_2 = self.placeOrder(difference, quantity, order_value, side, fyers)
+            order_id_2 = self.placeOrder(difference, stop_difference, quantity, order_value, side, fyers)
         except Exception as e:
             print(e)
             print("Crudeoil Bot is undable make decission")
@@ -84,7 +87,7 @@ class CrudeoilBot():
     """
     These functions are for placing, cancelling  the  order
     """
-    def placeOrder(self, difference, quantity, order_value, side, fyers):
+    def placeOrder(self, difference, stop_difference, quantity, order_value, side, fyers):
         try:
             number_of_stocks = quantity  # no need to multiply by 25 
             if side > 0:
@@ -104,7 +107,7 @@ class CrudeoilBot():
                     "disclosedQty" : 0,
                     "validity" : "DAY",
                     "offlineOrder" : "False",
-                    "stopLoss" : int(difference),
+                    "stopLoss" : int(stop_difference),
                     "takeProfit" : int(difference),
                     }
                 )

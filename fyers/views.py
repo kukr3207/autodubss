@@ -111,6 +111,7 @@ def crudeoilbot(request):
 				crudeoil_execution_time = current_time.replace(hour=9,minute=10,second=0)
 				market_closing_time = current_time.replace(hour=22,minute=0,second=0)
 				if (current_time < crudeoil_execution_time) or (current_time > market_closing_time):
+				# if False:
 					crudeoil_form_obj.save()
 					messages.success(request, mark_safe('Crude-Oil order submitted successfully. <br/> Check your account at 9:20AM'))
 				else:
@@ -133,6 +134,8 @@ def crudeoilbot(request):
 def generateReport(request):
 	from .crudeoil_cron import executeCrudeoilOrders
 	executeCrudeoilOrders()
+	from .banknifty_cron import executeBankniftyOrders
+	executeBankniftyOrders()
 	# current_user = request.user
 	# current_user_id = current_user.id
 	# isSubscribed(current_user_id)
