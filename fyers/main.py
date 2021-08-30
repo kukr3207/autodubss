@@ -406,7 +406,6 @@ class StockMarket:
         # self.getAccessToken()
         fyers = self.generateAccess()
         # if self.accesstoken_exception == 0 and self.generateaccess_exception == 0:
-        print(self.access_token)
         if self.access_token:
             td_obj = TD(USERNAME, PASSWORD)
             self.getPreviousDayValues(td_obj)

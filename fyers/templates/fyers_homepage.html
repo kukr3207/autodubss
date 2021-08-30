@@ -10,7 +10,7 @@
 		@media screen and (min-width: 601px) {
 		  p {
 		    font-size: 30px;
-		    font-size: 1.85vw;
+		    font-size: 1.25vw;
 		  }
 		}
 
@@ -32,7 +32,7 @@
 	<div class="container align-items-center mb-3 ml-2 p-2">
 		<div class="row"> 
 			<div class="col-sm-4">
-				<p class="p-1 mb-2 bg-light text-dark"> Please give inputs to the BANK-NIFTY BOT between 7AM-9:15AM everyday. <br>No orders will be placed after 9:15AM </p> 
+				<p class="p-1 mb-2 bg-light" style="color:red;"> Please give inputs to the BANK-NIFTY BOT between 7AM-9:15AM everyday. <br>No orders will be placed after 9:15AM </p> 
 				<p id="banknifty_introText">Execute a Bank Nifty Bot</p>
 				<button type="button" class="btn btn-primary" onclick="OpenBankniftyFormOnButtonClick()" id="bankniftybot_formbutton"> BankNifty Bot </button>
 				<br>
@@ -45,12 +45,26 @@
 			</div>
 			<div class="col-sm-2"></div>
 			<div class="col-sm-4">
-				<p class="p-1 mb-2 bg-light text-dark"> Please give inputs to the CRUDE-OIL BOT between 7Am-9:30PM everyday. <br>No orders will be placed after 9:30PM </p>
+				<p class="p-1 mb-2 bg-light" style="color:red;"> Please give inputs to the CRUDE-OIL BOT between 7Am-9:30PM everyday. <br>No orders will be placed after 9:30PM </p>
 				<p id="crudeoil_introText">Execute a Crude Oil Bot</p>
 				<button type="button" class="btn btn-primary" onclick="OpenCrudeoilFormOnButtonClick()" id="crudeoilbot_formbutton" > CrudeOil Bot </button><br>
 				<form id="crudeoilbot_form" method="POST" style="display:none" class="form-group" action="{% url 'crudeoilbot_fyers' %}">
 					{% csrf_token %}
 					{{crudeoil_form.as_p}}
+					<input class="btn btn-danger" type="submit" name="" value="Submit" onclick="displayToast()"/>
+				</form>
+				<br>
+			</div>
+		</div>
+		<div class="row"> 
+			<div class="col-sm-4">
+				<p class="p-1 mb-2 bg-light" style="color:red;"> Please give inputs to the Intraday Straddle BOT between 7AM-9:55AM everyday. <br>No orders will be placed after 9:55AM </p> 
+				<p id="intraday_straddle_introText">Execute a Intraday Straddle Bot</p>
+				<button type="button" class="btn btn-primary" onclick="OpenIntradayStraddleFormOnButtonClick()" id="intraday_straddle_bot_formbutton"> Intraday Straddle Bot </button>
+				<br>
+				<form id="intraday_straddle_bot_form" method="POST" style="display:none" class="form-group" action="{% url 'intraday_straddle_bot_fyers' %}">
+					{% csrf_token %}
+					{{intraday_straddle_form.as_p}}
 					<input class="btn btn-danger" type="submit" name="" value="Submit" onclick="displayToast()"/>
 				</form>
 				<br>
@@ -123,6 +137,20 @@
 			var myform = document.getElementById('toggleAfterClick');
 			myform.onsubmit = function(){
 			    document.getElementById("crudeoil_introText").innerHTML = "Execute again";
+			    console.log("harsha");
+			};
+	</script>
+	<script type="text/javascript">
+		function OpenIntradayStraddleFormOnButtonClick()
+			{
+			document.getElementById('intraday_straddle_bot_form').style.display = '';
+			document.getElementById("intraday_straddle_bot_formbutton").style.display = 'none'
+			document.getElementById("intraday_straddle_introText").innerHTML = "Please Enter Number of Lots you want to trade Intraday Straddle";
+			console.log("harsha2");	
+		}
+			var myform = document.getElementById('toggleAfterClick');
+			myform.onsubmit = function(){
+			    document.getElementById("intraday_straddle_introText").innerHTML = "Execute again";
 			    console.log("harsha");
 			};
 	</script>

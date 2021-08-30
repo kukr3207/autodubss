@@ -20,7 +20,7 @@ schedule==1.1.0
 six==1.16.0
 sqlparse==0.4.1
 tornado==6.1
-truedata-ws==4.0.2
+truedata-ws==4.0.6
 tzlocal==2.1
 urllib3==1.26.6
 websocket-client==1.1.0
