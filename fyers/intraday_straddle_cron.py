@@ -8,7 +8,7 @@ from .intraday_straddle import IntradayStraddle
 
 def executeIntradayStraddleOrders():
 	from_date = (datetime.datetime.now(tz=pytz.timezone('Asia/Kolkata')) - timedelta(days=1)).replace(hour=16,minute=0,second=0)
-	to_date = (datetime.datetime.now(tz=pytz.timezone('Asia/Kolkata'))).replace(hour=11,minute=55,second=0)
+	to_date = (datetime.datetime.now(tz=pytz.timezone('Asia/Kolkata'))).replace(hour=9,minute=55,second=0)
 	data = uisr.objects.filter(date_added__gte=from_date,date_added__lte=to_date)
 	for each_item in data.iterator():
 		try:

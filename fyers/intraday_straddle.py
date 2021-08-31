@@ -16,8 +16,8 @@ class IntradayStraddle:
 		self.stock = stock
 		self.access_token = access_token
 		self.weekly_contract_date = datetime.datetime(2021,9,2)
-		self.optionsDataTiming = (datetime.datetime.now()-timedelta(days=5)).replace(hour=9,minute=55,second=0)
-		self.close_day = (datetime.datetime.now()-timedelta(days=5)).replace(hour=15,minute=00,second=0)
+		self.optionsDataTiming = (datetime.datetime.now()).replace(hour=9,minute=55,second=0)
+		# self.close_day = (datetime.datetime.now()-timedelta(days=5)).replace(hour=15,minute=00,second=0)
 
 	def generateAccess(self):
 		try:
@@ -103,10 +103,7 @@ class IntradayStraddle:
 			ce_contract_name = "NIFTY21" + month_str + day_str + str(stock_atm) + "CE"
 		elif self.stock == "BANKNIFTY-I" :
 			month = self.weekly_contract_date.month
-			if month < 10 :
-				month_str = "0" + str(month)
-			else:
-				month_str = str(month)
+			month_str = str(month)
 			day = self.weekly_contract_date.day
 			if day < 10 :
 				day_str = "0" + str(day)
@@ -127,23 +124,20 @@ class IntradayStraddle:
 			pe_contract_name = "NIFTY21" + month_str + day_str + str(stock_atm) + "PE"
 		elif self.stock == "BANKNIFTY-I" :
 			month = self.weekly_contract_date.month
-			if month < 10 :
-				month_str = "0" + str(month)
-			else:
-				month_str = str(month)
+			month_str = str(month)
 			day = self.weekly_contract_date.day
 			if day < 10 :
 				day_str = "0" + str(day)
 			else:
 				day_str = str(day)
 			pe_contract_name = "BANKNIFTY21" + month_str + day_str + str(stock_atm) + "PE"
-		return pe_contract_name	
+		return pe_contract_name
 
 	def getCeStoplossTakeprofit(self, symbol, td_obj):
 		hist_data_1 = td_obj.get_historic_data(symbol,start_time=self.optionsDataTiming, end_time=self.optionsDataTiming)
 		# print(hist_data_1)
 		# hist_data_1 = td_obj.get_historic_data(symbol,start_time=self.close_day, end_time=self.close_day)
-		# print(hist_data_1)
+		print(hist_data_1)
 		ce_premium_closing_value = hist_data_1[0]['c']
 		ce_stop_price = int(0.4*ce_premium_closing_value)
 		ce_target_price = int(0.1*ce_premium_closing_value)
@@ -154,7 +148,7 @@ class IntradayStraddle:
 		hist_data_1 = td_obj.get_historic_data(symbol,start_time=self.optionsDataTiming, end_time=self.optionsDataTiming)
 		# print(hist_data_1)
 		# hist_data_1 = td_obj.get_historic_data(symbol,start_time=self.close_day, end_time=self.close_day)
-		# print(hist_data_1)
+		print(hist_data_1)
 		pe_premium_closing_value = hist_data_1[0]['c']
 		pe_stop_price = int(0.4*pe_premium_closing_value)
 		pe_target_price = int(0.1*pe_premium_closing_value)
@@ -215,6 +209,8 @@ class IntradayStraddle:
 			ce_stop_price, ce_target_price = self.getCeStoplossTakeprofit(ce_contract_name,td_obj)
 			pe_stop_price, pe_target_price = self.getPeStoplossTakeprofit(pe_contract_name,td_obj)
 			td_obj.disconnect()	
+			print(ce_contract_name_placeorder)
+			print(pe_contract_name_placeorder)
 			self.placeOrder(self.stock, ce_contract_name_placeorder, quantity, ce_stop_price, ce_target_price, fyers)
 			self.placeOrder(self.stock, pe_contract_name_placeorder, quantity, pe_stop_price, pe_target_price, fyers)
 				
