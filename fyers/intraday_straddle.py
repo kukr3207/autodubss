@@ -8,7 +8,7 @@ from fyers_api import fyersModel
 USERNAME = "FYERS1201"
 PASSWORD = "4jV4JgKB"
 
-td_obj = TD(USERNAME, PASSWORD)
+
 
 class IntradayStraddle:
 
@@ -28,7 +28,7 @@ class IntradayStraddle:
 		except:
 			self.generateaccess_exception = 1
 
-	def getATMValue(self):
+	def getATMValue(self, td_obj):
 		hist_data_9_55 = td_obj.get_historic_data(self.stock, start_time=self.optionsDataTiming, end_time=self.optionsDataTiming)
 		stock_closing_value = hist_data_9_55[0]['c']
 		if self.stock == "NIFTY-I":
@@ -139,7 +139,7 @@ class IntradayStraddle:
 			pe_contract_name = "BANKNIFTY21" + month_str + day_str + str(stock_atm) + "PE"
 		return pe_contract_name	
 
-	def getCeStoplossTakeprofit(self, symbol):
+	def getCeStoplossTakeprofit(self, symbol, td_obj):
 		hist_data_1 = td_obj.get_historic_data(symbol,start_time=self.optionsDataTiming, end_time=self.optionsDataTiming)
 		# print(hist_data_1)
 		# hist_data_1 = td_obj.get_historic_data(symbol,start_time=self.close_day, end_time=self.close_day)
@@ -150,7 +150,7 @@ class IntradayStraddle:
 		print(ce_stop_price, ce_target_price)
 		return ce_stop_price, ce_target_price
 
-	def getPeStoplossTakeprofit(self, symbol):
+	def getPeStoplossTakeprofit(self, symbol, td_obj):
 		hist_data_1 = td_obj.get_historic_data(symbol,start_time=self.optionsDataTiming, end_time=self.optionsDataTiming)
 		# print(hist_data_1)
 		# hist_data_1 = td_obj.get_historic_data(symbol,start_time=self.close_day, end_time=self.close_day)
@@ -206,15 +206,18 @@ class IntradayStraddle:
 	def run(self, quantity):
 		fyers = self.generateAccess()
 		if self.access_token:
-			stock_atm = self.getATMValue()
+			td_obj = TD(USERNAME, PASSWORD)
+			stock_atm = self.getATMValue(td_obj)
 			ce_contract_name = self.getCeContractName(stock_atm)
 			pe_contract_name = self.getPeContractName(stock_atm)
 			ce_contract_name_placeorder = self.getCePlaceorderContractName(stock_atm)
 			pe_contract_name_placeorder = self.getPePlaceorderContractName(stock_atm)
-			ce_stop_price, ce_target_price = self.getCeStoplossTakeprofit(ce_contract_name)
-			pe_stop_price, pe_target_price = self.getPeStoplossTakeprofit(pe_contract_name)
+			ce_stop_price, ce_target_price = self.getCeStoplossTakeprofit(ce_contract_name,td_obj)
+			pe_stop_price, pe_target_price = self.getPeStoplossTakeprofit(pe_contract_name,td_obj)
+			td_obj.disconnect()	
 			self.placeOrder(self.stock, ce_contract_name_placeorder, quantity, ce_stop_price, ce_target_price, fyers)
 			self.placeOrder(self.stock, pe_contract_name_placeorder, quantity, pe_stop_price, pe_target_price, fyers)
+				
 		else:
 			print("Problem in access token")
 			return 0
