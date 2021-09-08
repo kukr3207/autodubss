@@ -16,7 +16,7 @@ class IntradayStraddle:
 		self.stock = stock
 		self.access_token = access_token
 		self.weekly_contract_date = datetime.datetime(2021,9,2)
-		self.optionsDataTiming = (datetime.datetime.now()).replace(hour=9,minute=55,second=0)
+		self.optionsDataTiming = (datetime.datetime.now()).replace(hour=11,minute=10,second=0)
 		# self.close_day = (datetime.datetime.now()-timedelta(days=5)).replace(hour=15,minute=00,second=0)
 
 	def generateAccess(self):
@@ -140,7 +140,7 @@ class IntradayStraddle:
 		print(hist_data_1)
 		ce_premium_closing_value = hist_data_1[0]['c']
 		ce_stop_price = int(0.4*ce_premium_closing_value)
-		ce_target_price = int(0.1*ce_premium_closing_value)
+		ce_target_price = int(0.3*ce_premium_closing_value)
 		print(ce_stop_price, ce_target_price)
 		return ce_stop_price, ce_target_price
 
@@ -151,7 +151,7 @@ class IntradayStraddle:
 		print(hist_data_1)
 		pe_premium_closing_value = hist_data_1[0]['c']
 		pe_stop_price = int(0.4*pe_premium_closing_value)
-		pe_target_price = int(0.1*pe_premium_closing_value)
+		pe_target_price = int(0.3*pe_premium_closing_value)
 		print(pe_stop_price, pe_target_price)
 		return pe_stop_price, pe_target_price
 
