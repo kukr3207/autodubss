@@ -171,7 +171,8 @@ def intradayStraddlebot(request):
 	}			
 	return render(request, 'fyers_homepage.html', context)
 
-
+# from asgiref.sync import async_to_sync, sync_to_async
+# @sync_to_async
 def generateReport(request):
 	from .crudeoil_cron import executeCrudeoilOrders
 	executeCrudeoilOrders()

@@ -20,13 +20,13 @@ HOLIDAY_LIST = ["26-01-2021", "11-03-2021", "29-03-2021", "02-04-2021", "14-04-2
 
 class StockMarket:
 
-    def __init__(self, access_token, fyers_id=None, fyers_password=None, fyers_pan_dob=None):
+    def __init__(self, access_token, pre_high, pre_low, pre_close, min_candle, fyers_id=None, fyers_password=None, fyers_pan_dob=None):
         self.previous_day_barsize = "EOD"
         parameters = {}
-        self.pre_high = parameters.get("pre_high",0)
-        self.pre_low = parameters.get("pre_low",0)
-        self.pre_close = parameters.get("pre_close",0)
-        self.min_candle = parameters.get("1_min_candle",0)
+        self.pre_high = pre_high
+        self.pre_low = pre_low
+        self.pre_close = pre_close
+        self.min_candle = min_candle
         self.share = parameters.get("share", "BANKNIFTY-I")
         self.qty = parameters.get("qty", 1)
         self.access_token = access_token
@@ -100,7 +100,7 @@ class StockMarket:
                 previous_trading_date = (previous_trading_date - timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0) 
                 previous_trading_date_str = datetime.datetime.strftime(previous_trading_date,"%d-%m-%Y")
             for i in hist_data[::-1]:
-                if i["time"] == previous_trading_date:
+                if True:
                     self.pre_high = i["h"]
                     self.pre_low = i["l"]
                     self.pre_close = i["c"]
@@ -108,7 +108,6 @@ class StockMarket:
                     break
                 else:
                     print("problem in previousdayvalues loop")
-                    print(e)
                     self.wrong_previousday_values = 1
             print(previous_trading_date)
             print("Previous day high = {}, Previous day low = {}, Previous day close = {}".format(self.pre_high, self.pre_low, self.pre_close))
@@ -407,17 +406,18 @@ class StockMarket:
         fyers = self.generateAccess()
         # if self.accesstoken_exception == 0 and self.generateaccess_exception == 0:
         if self.access_token:
-            td_obj = TD(USERNAME, PASSWORD)
-            self.getPreviousDayValues(td_obj)
-            self.getPresentDayValue(td_obj)
-            td_obj.disconnect()
+            # td_obj = TD(USERNAME, PASSWORD)
+            # self.getPreviousDayValues(td_obj)
+            # self.getPresentDayValue(td_obj)
+            # td_obj.disconnect()
+            pass
         else:
             self.user_order_not_placed = 1
             self.user_order_not_placed_reason = "Problem in fetching previousday and presentday price"
             order_id_1 = 0
             order_id_2 = 0
             return order_id_1, order_id_2
-        if self.wrong_previousday_values == 0 and self.wrong_presentday_values == 0:
+        if self.min_candle != 0:
             op_values = self.calculateOPValues()
         else:
             self.user_order_not_placed = 1
