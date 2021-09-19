@@ -106,7 +106,7 @@ def executeBankniftyOrders():
 		each_record['pre_close'] = pre_close
 		each_record['min_candle'] = min_candle
 		list_data.append(each_record)
-	pool_obj = multiprocessing.Pool()
+	pool_obj = multiprocessing.Pool(2)
 	answer = pool_obj.map(eachLoop,list_data)
 	# print(answer)
 
