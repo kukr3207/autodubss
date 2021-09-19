@@ -49,7 +49,7 @@ def getPresentDayValue(td_obj):
 		end_date = datetime.datetime.now()
 		end_date = end_date.replace(hour=9, minute=16, second=0, microsecond=0) 
 		today = datetime.datetime.strftime(end_date,"%d-%m-%Y")
-		min_candle = 36000
+		min_candle = 0
 		if today not in HOLIDAY_LIST:
 			hist_data = td_obj.get_historic_data("BANKNIFTY-I", end_time=end_date, duration='1 D', bar_size=barsize)
 			for i in hist_data:
