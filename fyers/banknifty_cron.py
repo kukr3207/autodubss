@@ -95,7 +95,7 @@ def executeBankniftyOrders():
 	td_obj = TD(USERNAME, PASSWORD)
 	pre_high, pre_low, pre_close, wrong_previousday_values = getPreviousDayValues(td_obj)
 	min_candle = getPresentDayValue(td_obj)
-
+	td_obj.disconnect()
 	from_date = (datetime.datetime.now(tz=pytz.timezone('Asia/Kolkata')) - timedelta(days=1)).replace(hour=15,minute=30,second=0)
 	to_date = (datetime.datetime.now(tz=pytz.timezone('Asia/Kolkata')))#.replace(hour=9,minute=18,second=0)
 	data = ubfr.objects.filter(date_added__gte=from_date,date_added__lte=to_date).values()
@@ -109,8 +109,6 @@ def executeBankniftyOrders():
 	pool_obj = multiprocessing.Pool(2)
 	answer = pool_obj.map(eachLoop,list_data)
 	# print(answer)
-
-
 
 
 

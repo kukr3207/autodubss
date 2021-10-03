@@ -105,11 +105,11 @@ class StockMarket:
                     self.pre_low = i["l"]
                     self.pre_close = i["c"]
                     self.wrong_previousday_values = 0
+                    print(i)
                     break
                 else:
                     print("problem in previousdayvalues loop")
                     self.wrong_previousday_values = 1
-            print(previous_trading_date)
             print("Previous day high = {}, Previous day low = {}, Previous day close = {}".format(self.pre_high, self.pre_low, self.pre_close))
             print()
         except Exception as e:

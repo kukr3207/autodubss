@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import UserCrudeoilFyersRelation, UserBankniftyFyersRelation, UserIntradayStraddleRelation, UserSubscriptionRelation, UserFyersAppRelation
+from .models import UserCrudeoilFyersRelation, UserBankniftyFyersRelation, UserIntradayStraddleRelation, UserSubscriptionRelation, UserFyersAppRelation, UserBNOptionsBuyingFyersRelation
 
 class UserBankniftyFyersRelationAdmin(admin.ModelAdmin):
     list_display = ('user_id', 'date_added', 'number_of_lots') 
@@ -16,6 +16,8 @@ class UserSubscriptionRelationAdmin(admin.ModelAdmin):
 class UserFyersAppRelationAdmin(admin.ModelAdmin):
     list_display = ('user','date_added')
 
+class UserBNOptionsBuyingFyersRelationAdmin(admin.ModelAdmin):
+    list_display = ('user_id', 'date_added', 'number_of_lots') 
 
 # Register your models here.
 admin.site.register(UserBankniftyFyersRelation, UserBankniftyFyersRelationAdmin)
@@ -23,3 +25,4 @@ admin.site.register(UserCrudeoilFyersRelation, UserCrudeoilFyersRelationAdmin)
 admin.site.register(UserIntradayStraddleRelation, UserIntradayStraddleRelationAdmin)
 admin.site.register(UserSubscriptionRelation, UserSubscriptionRelationAdmin)
 admin.site.register(UserFyersAppRelation, UserFyersAppRelationAdmin)
+admin.site.register(UserBNOptionsBuyingFyersRelation, UserBNOptionsBuyingFyersRelationAdmin)

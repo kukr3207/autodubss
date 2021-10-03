@@ -56,20 +56,20 @@
 				<br>
 			</div> -->
 		</div>
-		<!-- <div class="row"> 
+		<div class="row"> 
 			<div class="col-sm-4">
-				<p class="p-1 mb-2 bg-light" style="color:red;"> Please give inputs to the Intraday Straddle BOT between 7AM-9:55AM everyday. <br>No orders will be placed after 9:55AM </p> 
-				<p id="intraday_straddle_introText">Execute a Intraday Straddle Bot</p>
-				<button type="button" class="btn btn-primary" onclick="OpenIntradayStraddleFormOnButtonClick()" id="intraday_straddle_bot_formbutton"> Intraday Straddle Bot </button>
+				<p class="p-1 mb-2 bg-light" style="color:red;"> Please give inputs to the Bank-Nifty options BOT between 7AM-9:20AM everyday. <br>No orders will be placed after 9:20AM </p> 
+				<p id="intraday_straddle_introText">Execute a Bank_Nifty Options Bot</p>
+				<button type="button" class="btn btn-primary" onclick="OpenIntradayStraddleFormOnButtonClick()" id="intraday_straddle_bot_formbutton"> Bank-Nifty Options Bot </button>
 				<br>
-				<form id="intraday_straddle_bot_form" method="POST" style="display:none" class="form-group" action="{% url 'intraday_straddle_bot_fyers' %}">
+				<form id="intraday_straddle_bot_form" method="POST" style="display:none" class="form-group" action="{% url 'bn_optionsbuying_bot_fyers' %}">
 					{% csrf_token %}
-					{{intraday_straddle_form.as_p}}
+					{{bn_optionsbuying_form.as_p}}
 					<input class="btn btn-danger" type="submit" name="" value="Submit" onclick="displayToast()"/>
 				</form>
 				<br>
 			</div>
-		</div> -->
+		</div>
 	</div>
 	<div class="row"> 
 				<div class="container">

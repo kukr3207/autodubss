@@ -32,6 +32,15 @@ class UserBankniftyFyersRelation(models.Model):
 	def __str__(self):
 		return str(self.user_id)
 
+class UserBNOptionsBuyingFyersRelation(models.Model):
+	user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+	date_added = models.DateTimeField(auto_now_add=True)
+	stock = models.CharField(max_length=300, null=True, choices=STOCK_CHOICES,)
+	number_of_lots = models.IntegerField()
+	fyers_access_token = models.CharField(max_length=300, null=True)
+	def __str__(self):
+		return str(self.user_id)
+
 class UserIntradayStraddleRelation(models.Model):
 	user_id = models.ForeignKey(User, on_delete=models.CASCADE)
 	date_added = models.DateTimeField(auto_now_add=True)

@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import UserBankniftyFyersRelation, UserCrudeoilFyersRelation, UserIntradayStraddleRelation
+from .models import UserBankniftyFyersRelation, UserCrudeoilFyersRelation, UserIntradayStraddleRelation, UserBNOptionsBuyingFyersRelation
 
 class UserBankniftyFyersRelationForm(forms.ModelForm):
 	class Meta:
@@ -26,15 +26,15 @@ class UserCrudeoilFyersRelationForm(forms.ModelForm):
 			# "stock",	
 		]
 
-class UserIntradayStraddleRelationForm(forms.ModelForm):
+class UserBNOptionsBuyingFyersRelationForm(forms.ModelForm):
 	class Meta:
-		model = UserIntradayStraddleRelation
+		model = UserBNOptionsBuyingFyersRelation
 		fields = [
 			# "user_id",
 			# "fyers_id",
 			# "fyers_password",
 			# "fyers_pan_dob",
-			"stock",
+			# "stock",
 			"number_of_lots",
 			# "stock",	
 		]

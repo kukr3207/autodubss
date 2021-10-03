@@ -3,7 +3,7 @@ from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from .models import User
-from .forms import UserBankniftyFyersRelationForm, UserCrudeoilFyersRelationForm, UserIntradayStraddleRelationForm
+from .forms import UserBankniftyFyersRelationForm, UserCrudeoilFyersRelationForm, UserBNOptionsBuyingFyersRelationForm
 from .models import UserBankniftyFyersRelation, UserCrudeoilFyersRelation, UserFyersAppRelation, UserSubscriptionRelation
 from .main import StockMarket
 from .fyers_authentication import fyersOAuth
@@ -54,12 +54,12 @@ def fyers(request):
 	request.session['fyers_access_token'] = access_token
 	banknifty_form = UserBankniftyFyersRelationForm(request.POST or None)
 	crudeoil_form = UserCrudeoilFyersRelationForm(request.POST or None)
-	intraday_straddle_form = UserIntradayStraddleRelationForm(request.POST or None)
+	bn_optionsbuying_form = UserBNOptionsBuyingFyersRelationForm(request.POST or None)
 	context = {
 		'banknifty_form':banknifty_form,
 		'crudeoil_form':crudeoil_form,
-		"intraday_straddle_form":intraday_straddle_form
-	}	
+		"bn_optionsbuying_form":bn_optionsbuying_form
+	}		
 	return render(request, "fyers_homepage.html", context)
 	
 
@@ -89,11 +89,11 @@ def bankniftybot(request):
 				print(form.errors)
 	banknifty_form = UserBankniftyFyersRelationForm(request.POST or None)
 	crudeoil_form = UserCrudeoilFyersRelationForm(request.POST or None)
-	intraday_straddle_form = UserIntradayStraddleRelationForm(request.POST or None)
+	bn_optionsbuying_form = UserBNOptionsBuyingFyersRelationForm(request.POST or None)
 	context = {
 		'banknifty_form':banknifty_form,
 		'crudeoil_form':crudeoil_form,
-		"intraday_straddle_form":intraday_straddle_form
+		"bn_optionsbuying_form":bn_optionsbuying_form
 	}				
 	return render(request, 'fyers_homepage.html', context)
 
@@ -129,45 +129,44 @@ def crudeoilbot(request):
 				print(form.errors)
 	banknifty_form = UserBankniftyFyersRelationForm(request.POST or None)
 	crudeoil_form = UserCrudeoilFyersRelationForm(request.POST or None)
-	intraday_straddle_form = UserIntradayStraddleRelationForm(request.POST or None)
+	bn_optionsbuying_form = UserBNOptionsBuyingFyersRelationForm(request.POST or None)
 	context = {
 		'banknifty_form':banknifty_form,
 		'crudeoil_form':crudeoil_form,
-		"intraday_straddle_form":intraday_straddle_form
-	}				
+		"bn_optionsbuying_form":bn_optionsbuying_form
+	}					
 	return render(request, 'fyers_homepage.html', context)
 
 @login_required
 @csrf_exempt
-def intradayStraddlebot(request):
-	intraday_straddle_form = UserIntradayStraddleRelationForm(request.POST or None)
+def BNOptionsBuyingBot(request):
+	bn_optionsbuying_form = UserBNOptionsBuyingFyersRelationForm(request.POST or None)
 	if request.method == "POST":
 		if request.user.is_authenticated:
-			if intraday_straddle_form.is_valid():
-				intraday_straddle_form_obj = intraday_straddle_form.save(commit=False) # Return an object without saving to the DB
-				intraday_straddle_form_obj.user_id = User.objects.get(pk=request.user.id) # Add an author field which will contain current user's id
+			if bn_optionsbuying_form.is_valid():
+				bn_optionsbuying_form_obj = bn_optionsbuying_form.save(commit=False) # Return an object without saving to the DB
+				bn_optionsbuying_form_obj.user_id = User.objects.get(pk=request.user.id) # Add an author field which will contain current user's id
 				if request.session['fyers_access_token']:
-					intraday_straddle_form_obj.fyers_access_token = request.session['fyers_access_token']
-				stock = intraday_straddle_form_obj.stock
+					bn_optionsbuying_form_obj.fyers_access_token = request.session['fyers_access_token']
 				current_time = datetime.datetime.now(tz=pytz.timezone('Asia/Kolkata')).time()
-				intraday_straddle_execution_time = current_time.replace(hour=10,minute=0,second=0)
+				bn_optionsbuying_execution_time = current_time.replace(hour=9,minute=20,second=0)
 				market_closing_time = current_time.replace(hour=15,minute=0,second=0)
-				if (current_time < intraday_straddle_execution_time) or (current_time > market_closing_time):
-					intraday_straddle_form_obj.save()
-					messages.success(request, mark_safe('Intraday Straddle order submitted successfully. <br/> Check your account at 10:00AM'))
+				if (current_time < bn_optionsbuying_execution_time) or (current_time > market_closing_time):
+					bn_optionsbuying_form_obj.save()
+					messages.success(request, mark_safe('Bank-Nifty options order submitted successfully. <br/> Check your account at 9:20AM'))
 				else:
-					print(" Intraday Straddle timing is not right ")
-					messages.success(request, mark_safe('Intraday Straddle order submittion failed. <br/> Order should be placed between 7AM-9:55AM'))
+					print(" Bank-Nifty options timing is not right ")
+					messages.success(request, mark_safe('Bank-Nifty options order submittion failed. <br/> Order should be placed between 7AM-9:20AM'))
 			else:
 				print("ERROR : Form is invalid")
 				print(form.errors)
 	banknifty_form = UserBankniftyFyersRelationForm(request.POST or None)
 	crudeoil_form = UserCrudeoilFyersRelationForm(request.POST or None)
-	intraday_straddle_form = UserIntradayStraddleRelationForm(request.POST or None)
+	bn_optionsbuying_form = UserBNOptionsBuyingFyersRelationForm(request.POST or None)
 	context = {
 		'banknifty_form':banknifty_form,
 		'crudeoil_form':crudeoil_form,
-		"intraday_straddle_form":intraday_straddle_form
+		"bn_optionsbuying_form":bn_optionsbuying_form
 	}			
 	return render(request, 'fyers_homepage.html', context)
 
@@ -180,9 +179,9 @@ def generateReport(request):
 	executeBankniftyOrders()		
 	return render(request, 'fyers_homepage.html')
 
-def intradayStraddleCron(request):
-	from .intraday_straddle_cron import executeIntradayStraddleOrders
-	executeIntradayStraddleOrders()
+def bnOptionsBuyingCron(request):
+	from .bn_optionsbuying_cron import executeBNOptionsbuyingOrder
+	executeBNOptionsbuyingOrder()
 	return render(request, 'fyers_homepage.html')
 
 
