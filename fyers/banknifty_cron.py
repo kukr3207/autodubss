@@ -5,7 +5,7 @@ from datetime import timedelta
 import pytz
 from .main import StockMarket
 from truedata_ws.websocket.TD import TD
-
+import time
 import multiprocessing
 
 REALTIME_PORT = 8082
@@ -17,30 +17,33 @@ HOLIDAY_LIST = ["26-01-2021", "11-03-2021", "29-03-2021", "02-04-2021", "14-04-2
 
 
 def getPreviousDayValues(td_obj):
-	try:
-		end_date = datetime.datetime.today() - timedelta(days=1)
-		hist_data = td_obj.get_historic_data("BANKNIFTY-I", end_time=end_date, duration='10 D', bar_size="EOD")
-		previous_trading_date = (datetime.datetime.today() - timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0) 
+	# try:
+	end_date = datetime.datetime.today() - timedelta(days=1)
+	print("1234567890")
+	hist_data = td_obj.get_historic_data("BANKNIFTY-I", end_time=end_date, duration='10 D', bar_size="EOD")
+	print(hist_data)
+	time.sleep(0.1)
+	previous_trading_date = (datetime.datetime.today() - timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0) 
+	previous_trading_date_str = datetime.datetime.strftime(previous_trading_date,"%d-%m-%Y")
+	while previous_trading_date_str in HOLIDAY_LIST : 
+		previous_trading_date = (previous_trading_date - timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0) 
 		previous_trading_date_str = datetime.datetime.strftime(previous_trading_date,"%d-%m-%Y")
-		while previous_trading_date_str in HOLIDAY_LIST : 
-			previous_trading_date = (previous_trading_date - timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0) 
-			previous_trading_date_str = datetime.datetime.strftime(previous_trading_date,"%d-%m-%Y")
-		for i in hist_data[::-1]:
-			if True:
-				pre_high = i["h"]
-				pre_low = i["l"]
-				pre_close = i["c"]
-				wrong_previousday_values = 0
-				break
-			else:
-				print("problem in previousdayvalues loop")
-				wrong_previousday_values = 1
-		print("Previous day high = {}, Previous day low = {}, Previous day close = {}".format(pre_high, pre_low, pre_close))
-		print()
-	except Exception as e:
-		print("problem in previousdayvalues function")
-		print(e)
-		wrong_previousday_values = 1
+	for i in hist_data[::-1]:
+		if True:
+			pre_high = i["h"]
+			pre_low = i["l"]
+			pre_close = i["c"]
+			wrong_previousday_values = 0
+			break
+		else:
+			print("problem in previousdayvalues loop")
+			wrong_previousday_values = 1
+	print("Previous day high = {}, Previous day low = {}, Previous day close = {}".format(pre_high, pre_low, pre_close))
+	print()
+	# except Exception as e:
+	# 	print("problem in previousdayvalues function")
+	# 	print(e)
+	# 	wrong_previousday_values = 1
 	return  pre_high, pre_low, pre_close, wrong_previousday_values
 
 def getPresentDayValue(td_obj):
