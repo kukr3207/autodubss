@@ -63,7 +63,7 @@ def getPresentDayValues(td_obj):
     return min_candle
 
 def getATMValue(td_obj):
-    timing = (datetime.datetime.now())).replace(hour=9,minute=16,second=0)
+    timing = (datetime.datetime.now()).replace(hour=9,minute=16,second=0)
     hist_data_9_16 = td_obj.get_historic_data("BANKNIFTY-I", start_time=timing, end_time=timing)
     stock_closing_value = hist_data_9_16[0]['c']
     stock_atm = int(round(stock_closing_value/100))*100
