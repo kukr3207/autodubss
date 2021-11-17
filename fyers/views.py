@@ -78,7 +78,7 @@ def bankniftybot(request):
 				current_time = datetime.datetime.now(tz=pytz.timezone('Asia/Kolkata')).time()
 				banknifty_execution_time = current_time.replace(hour=9,minute=18,second=0)
 				market_closing_time = current_time.replace(hour=15,minute=30,second=0)
-				if (current_time < banknifty_execution_time) or (current_time > market_closing_time):
+				if True: #(current_time < banknifty_execution_time) or (current_time > market_closing_time)
 					banknifty_form_obj.save()
 					messages.success(request, mark_safe('Bank-Nifty order submitted successfully. <br/> Check your account at 9:20AM'))
 				else:

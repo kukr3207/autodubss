@@ -86,18 +86,28 @@ class BNOptionsBuyingBot():
     def placeOptionsOrder(self, order_value, difference, side, fyers):
         if side == 1:
             contract = self.getITMCeContractName()
-            options_order_value = self.atm_ce_value + (0.7*(self.atm_strikeprice - order_value))
+            print("ce")
+            print(self.atm_ce_value)
+            options_order_value = self.atm_ce_value + (0.7*(abs(self.atm_strikeprice - order_value)))
+            print(options_order_value)
             options_difference = 0.7*(difference)
+            print(options_difference)
         elif side == -1:
             contract = self.getITMPeContractName()
-            options_order_value = self.atm_pe_value - (0.7*(self.atm_strikeprice - order_value))
+            print("pe")
+            print(self.atm_pe_value)
+            options_order_value = self.atm_pe_value + (0.7*abs((self.atm_strikeprice - order_value)))
+            print(options_order_value)
             options_difference = 0.7*(difference)
+            print(options_difference)
         self.placeOrder(contract, self.no_of_lots, options_order_value, options_difference, fyers)
 
     def placeOrder(self, symbol, quantity, order_value, difference, fyers):
         print(symbol)
         number_of_stocks = quantity*25 #banknifty lot size is in 50 multiples. 
         stop_price = order_value - 1
+        order_value = int(order_value)
+        stop_price = int(stop_price)
         response = fyers.place_orders(
             token = self.access_token,
             data = {
@@ -105,7 +115,7 @@ class BNOptionsBuyingBot():
                 "qty" : number_of_stocks,
                 "type" : 4,
                 "side" : 1,
-                "productType" : "BO",
+                "productType" : "INTRADAY",
                 "limitPrice" : order_value,
                 "stopPrice" : stop_price,    
                 "disclosedQty" : 0,

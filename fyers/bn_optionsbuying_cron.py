@@ -100,14 +100,13 @@ def getATMPeContractName(atm_strikeprice):
     return pe_contract_name	
 
 def getATMCEPEValues(td_obj, atm_strikeprice):
-    ce_contract_name = getATMCeContractName(atm_strikeprice)
-    pe_contract_name = getATMPeContractName(atm_strikeprice)
+    ce_itm_strikeprice = atm_strikeprice - 500
+    pe_itm_strikeprice = atm_strikeprice + 500
+    ce_contract_name = getATMCeContractName(ce_itm_strikeprice)
+    pe_contract_name = getATMPeContractName(pe_itm_strikeprice)
     timing = (datetime.datetime.now()).replace(hour=9,minute=16,second=0)
     ce_9_16_hist_data = td_obj.get_historic_data(ce_contract_name, start_time=timing, end_time=timing)
     pe_9_16_hist_data = td_obj.get_historic_data(pe_contract_name, start_time=timing, end_time=timing)
-    print("&&&&&&&&&&&&&&&&&&&&&&&&")
-    print(ce_9_16_hist_data)
-    print(pe_9_16_hist_data)
     ce_9_16_closing_value = ce_9_16_hist_data[0]['c']
     pe_9_16_closing_value = pe_9_16_hist_data[0]['c']
     return ce_9_16_closing_value, pe_9_16_closing_value
