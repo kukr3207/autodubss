@@ -21,6 +21,8 @@ RUN python3 /app/manage.py migrate
 
 EXPOSE 8000
 
+ENV PORT 8000
+
 WORKDIR ./app
 
 CMD gunicorn algo_trading.wsgi:application --bind 0.0.0.0:$PORT --preload

@@ -1,0 +1,8 @@
+
+1637776922537 :: place_order ::  :: 1637776922872 :: {'s': 'error', 'code': -174, 'message': 'System is not connected to NSE Derivative market', 'id': ''}
+
+1637776922879 :: place_order ::  :: 1637776923126 :: {'s': 'error', 'code': -174, 'message': 'System is not connected to NSE Derivative market', 'id': ''}
+
+1637777026601 :: place_order ::  :: 1637777026893 :: {'s': 'error', 'code': -174, 'message': 'System is not connected to NSE Derivative market', 'id': ''}
+
+1637777026903 :: place_order ::  :: 1637777027148 :: {'s': 'error', 'code': -174, 'message': 'System is not connected to NSE Derivative market', 'id': ''}

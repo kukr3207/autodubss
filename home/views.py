@@ -1,34 +1,74 @@
 from django.shortcuts import render
+from django.shortcuts import redirect
+from .models import User, UserFyersAppRelation
+from .forms import UserBNFuturesRelationForm
 from django.contrib.auth.decorators import login_required
-from fyers.models import UserBankniftyFyersRelation, UserCrudeoilFyersRelation, UserFyersAppRelation, UserSubscriptionRelation
-import datetime
-from django.utils import timezone
-from datetime import timedelta
-from django.views.decorators.csrf import csrf_exempt
+from fyers_api import accessToken
+from django.contrib import messages  
+from django.utils.safestring import mark_safe  
 
 # Create your views here.
 @login_required
-@csrf_exempt
-def home(request):
-    current_user_id = request.user.id
-    subscription_flag = isSubscribed(current_user_id)
-    if subscription_flag:
-        return render(request, 'home.html')
-    else:
-        return render(request,"not_subscribed.html")
+def home(request):	
+    bn_futures_form = UserBNFuturesRelationForm(request.POST or None)
+    context = {
+        'bn_futures_form':bn_futures_form,
+    }	
+    return render(request, "home.html", context)
 
-#helper functions
-# helper functions
-@csrf_exempt
-def isSubscribed(user_id):
-	try:
-		user_subscription_relation = UserSubscriptionRelation.objects.get(user_id=user_id).__dict__
-		last_subscription_date = user_subscription_relation['last_subscription_date']
-		current_date = timezone.now()
-		if last_subscription_date < (current_date-timedelta(days=30)) :
-			return False
-		else:
-			return True
-	except Exception as e:
-		print(e)
-		print("Could not get subscription details. Contact admin")
+@login_required
+def fyersAuthentication(request):
+    user_id = User.objects.get(pk=request.user.id).__dict__['id']
+    user_fyers_app = UserFyersAppRelation.objects.get(user_id=user_id).__dict__
+    app_id = user_fyers_app['fyers_app_id']
+    app_secret = user_fyers_app['fyers_app_secretkey']
+    redirect_uri = "http://localhost:8000/fyersAuthenticationCallback"
+    session=accessToken.SessionModel(client_id=app_id,
+            secret_key=app_secret,
+            redirect_uri=redirect_uri, 
+            response_type="code", 
+            grant_type="authorization_code",)
+    response = session.generate_authcode()  
+    return redirect(response)
+
+@login_required
+def fyersAuthenticationCallback(request):
+    auth_code = request.GET.get('auth_code')
+    user_id = User.objects.get(pk=request.user.id).__dict__['id']
+    user_fyers_app = UserFyersAppRelation.objects.get(user_id=user_id).__dict__
+    app_id = user_fyers_app['fyers_app_id']
+    app_secret = user_fyers_app['fyers_app_secretkey']
+    redirect_uri = "http://localhost:8000/fyersAuthenticationCallback"
+    session=accessToken.SessionModel(client_id=app_id,
+            secret_key=app_secret,
+            redirect_uri=redirect_uri, 
+            response_type="code", 
+            grant_type="authorization_code",)
+    session.set_token(auth_code)
+    response = session.generate_token()
+    print(response)
+    access_token = response["access_token"]
+    request.session['fyers_access_token'] = access_token
+    bn_futures_form = UserBNFuturesRelationForm(request.POST or None)
+    context = {
+        'bn_futures_form':bn_futures_form,
+    }	
+    return render(request, "home.html", context)
+
+@login_required
+def bnFuturesForm(request):
+    bn_futures_form = UserBNFuturesRelationForm(request.POST or None)
+    if request.method == "POST":
+        if request.user.is_authenticated:
+            if bn_futures_form.is_valid():
+                bn_futures_form_obj = bn_futures_form.save(commit=False)
+                bn_futures_form_obj.user_id = User.objects.get(pk=request.user.id)
+                if request.session['fyers_access_token']:
+                    bn_futures_form_obj.fyers_access_token = request.session['fyers_access_token']
+                bn_futures_form_obj.save()
+                messages.success(request, mark_safe('Bank-Nifty order submitted successfully. <br/> Check your account at 9:20AM'))
+    bn_futures_form = UserBNFuturesRelationForm(request.POST or None)
+    context = {
+        'bn_futures_form':bn_futures_form,
+    }	
+    return render(request, 'home.html', context)

@@ -1,0 +1,8 @@
+
+1637328683772 :: history :: {'symbol': 'NSE:SBIN-EQ', 'resolution': 'D', 'date_format': '0', 'range_from': '1622097600', 'range_to': '1622097685', 'cont_flag': '1'} :: 1637328683909 :: {'s': 'error', 'code': -99, 'errmsg': ''}
+
+1637328759224 :: history :: {'symbol': 'NSE:SBIN-EQ', 'resolution': 'D', 'date_format': '0', 'range_from': '1622097600', 'range_to': '1622097685', 'cont_flag': '1'} :: 1637328759391 :: {'s': 'error', 'code': -99, 'errmsg': ''}
+
+1637328906657 :: history :: {'symbol': 'NSE:SBIN-EQ', 'resolution': 'D', 'date_format': '0', 'range_from': '1636551237', 'range_to': '1637069637', 'cont_flag': '1'} :: 1637328906831 :: {'s': 'error', 'code': -99, 'errmsg': ''}
+
+1637328974500 :: history :: {'symbol': 'NSE:SBIN-EQ', 'resolution': 'D', 'date_format': '0', 'range_from': '1636551237', 'range_to': '1637069637', 'cont_flag': '0'} :: 1637328975061 :: {'s': 'error', 'code': -99, 'errmsg': ''}

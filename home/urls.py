@@ -1,6 +1,8 @@
 from django.urls import path
-from home import views
+from home import views as home_view
 
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('', home_view.fyersAuthentication, name='fyersAuthentication'),
+    path('fyersAuthenticationCallback',home_view.fyersAuthenticationCallback,name='fyersAuthenticationCallback'),
+    path('bnfuturesbot',home_view.bnFuturesForm,name='bn_futures_bot_url'),
 ]
