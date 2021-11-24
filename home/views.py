@@ -7,6 +7,8 @@ from fyers_api import accessToken
 from django.contrib import messages  
 from django.utils.safestring import mark_safe  
 
+REDIRECT_URL = "https://algo-trading-01.herokuapp.com/fyersAuthenticationCallback"
+
 # Create your views here.
 @login_required
 def home(request):	
@@ -22,7 +24,7 @@ def fyersAuthentication(request):
     user_fyers_app = UserFyersAppRelation.objects.get(user_id=user_id).__dict__
     app_id = user_fyers_app['fyers_app_id']
     app_secret = user_fyers_app['fyers_app_secretkey']
-    redirect_uri = "http://localhost:8000/fyersAuthenticationCallback"
+    redirect_uri = REDIRECT_URL
     session=accessToken.SessionModel(client_id=app_id,
             secret_key=app_secret,
             redirect_uri=redirect_uri, 
@@ -38,7 +40,7 @@ def fyersAuthenticationCallback(request):
     user_fyers_app = UserFyersAppRelation.objects.get(user_id=user_id).__dict__
     app_id = user_fyers_app['fyers_app_id']
     app_secret = user_fyers_app['fyers_app_secretkey']
-    redirect_uri = "http://localhost:8000/fyersAuthenticationCallback"
+    redirect_uri = REDIRECT_URL
     session=accessToken.SessionModel(client_id=app_id,
             secret_key=app_secret,
             redirect_uri=redirect_uri, 
