@@ -6,3 +6,123 @@
 1637777026601 :: place_order ::  :: 1637777026893 :: {'s': 'error', 'code': -174, 'message': 'System is not connected to NSE Derivative market', 'id': ''}
 
 1637777026903 :: place_order ::  :: 1637777027148 :: {'s': 'error', 'code': -174, 'message': 'System is not connected to NSE Derivative market', 'id': ''}
+
+1637781559597 :: place_order ::  :: 1637781559837 :: {'s': 'error', 'code': -352, 'message': 'Please provide a valid app id.', 'id': ''}
+
+1637781559846 :: place_order ::  :: 1637781560023 :: {'s': 'error', 'code': -352, 'message': 'Please provide a valid app id.', 'id': ''}
+
+1637781560031 :: place_order ::  :: 1637781560224 :: {'s': 'error', 'code': -352, 'message': 'Please provide a valid app id.', 'id': ''}
+
+1637781560234 :: place_order ::  :: 1637781560429 :: {'s': 'error', 'code': -352, 'message': 'Please provide a valid app id.', 'id': ''}
+
+1637781560437 :: place_order ::  :: 1637781560641 :: {'s': 'error', 'code': -174, 'message': 'System is not connected to NSE Derivative market', 'id': ''}
+
+1637781560646 :: place_order ::  :: 1637781560889 :: {'s': 'error', 'code': -174, 'message': 'System is not connected to NSE Derivative market', 'id': ''}
+
+1637781560899 :: place_order ::  :: 1637781561145 :: {'s': 'error', 'code': -174, 'message': 'System is not connected to NSE Derivative market', 'id': ''}
+
+1637781561151 :: place_order ::  :: 1637781561361 :: {'s': 'error', 'code': -174, 'message': 'System is not connected to NSE Derivative market', 'id': ''}
+
+1637781682309 :: place_order ::  :: 1637781682551 :: {'s': 'error', 'code': -209, 'message': 'Please provide the validation parameter', 'id': ''}
+
+1637781682564 :: place_order ::  :: 1637781682736 :: {'s': 'error', 'code': -209, 'message': 'Please provide the validation parameter', 'id': ''}
+
+1637781682746 :: place_order ::  :: 1637781682916 :: {'s': 'error', 'code': -209, 'message': 'Please provide the validation parameter', 'id': ''}
+
+1637781682924 :: place_order ::  :: 1637781683108 :: {'s': 'error', 'code': -209, 'message': 'Please provide the validation parameter', 'id': ''}
+
+1637781683114 :: place_order ::  :: 1637781683273 :: {'s': 'error', 'code': -209, 'message': 'Please provide the validation parameter', 'id': ''}
+
+1637781683278 :: place_order ::  :: 1637781683434 :: {'s': 'error', 'code': -209, 'message': 'Please provide the validation parameter', 'id': ''}
+
+1637781683444 :: place_order ::  :: 1637781683601 :: {'s': 'error', 'code': -209, 'message': 'Please provide the validation parameter', 'id': ''}
+
+1637781683608 :: place_order ::  :: 1637781683773 :: {'s': 'error', 'code': -209, 'message': 'Please provide the validation parameter', 'id': ''}
+
+1637781684537 :: place_order ::  :: 1637781684714 :: {'s': 'error', 'code': -209, 'message': 'Please provide the validation parameter', 'id': ''}
+
+1637781684723 :: place_order ::  :: 1637781684907 :: {'s': 'error', 'code': -209, 'message': 'Please provide the validation parameter', 'id': ''}
+
+1637781684913 :: place_order ::  :: 1637781685076 :: {'s': 'error', 'code': -209, 'message': 'Please provide the validation parameter', 'id': ''}
+
+1637781685084 :: place_order ::  :: 1637781685257 :: {'s': 'error', 'code': -209, 'message': 'Please provide the validation parameter', 'id': ''}
+
+1637781685266 :: place_order ::  :: 1637781685443 :: {'s': 'error', 'code': -209, 'message': 'Please provide the validation parameter', 'id': ''}
+
+1637781685452 :: place_order ::  :: 1637781685632 :: {'s': 'error', 'code': -209, 'message': 'Please provide the validation parameter', 'id': ''}
+
+1637781685641 :: place_order ::  :: 1637781685823 :: {'s': 'error', 'code': -209, 'message': 'Please provide the validation parameter', 'id': ''}
+
+1637781685829 :: place_order ::  :: 1637781686005 :: {'s': 'error', 'code': -209, 'message': 'Please provide the validation parameter', 'id': ''}
+
+1637781747149 :: place_order ::  :: 1637781747331 :: {'s': 'error', 'code': -209, 'message': 'Please provide the validation parameter', 'id': ''}
+
+1637781747339 :: place_order ::  :: 1637781747514 :: {'s': 'error', 'code': -209, 'message': 'Please provide the validation parameter', 'id': ''}
+
+1637781747522 :: place_order ::  :: 1637781747691 :: {'s': 'error', 'code': -209, 'message': 'Please provide the validation parameter', 'id': ''}
+
+1637781747698 :: place_order ::  :: 1637781747877 :: {'s': 'error', 'code': -209, 'message': 'Please provide the validation parameter', 'id': ''}
+
+1637781747886 :: place_order ::  :: 1637781748065 :: {'s': 'error', 'code': -209, 'message': 'Please provide the validation parameter', 'id': ''}
+
+1637781748072 :: place_order ::  :: 1637781748245 :: {'s': 'error', 'code': -209, 'message': 'Please provide the validation parameter', 'id': ''}
+
+1637781748252 :: place_order ::  :: 1637781748432 :: {'s': 'error', 'code': -209, 'message': 'Please provide the validation parameter', 'id': ''}
+
+1637781748441 :: place_order ::  :: 1637781748606 :: {'s': 'error', 'code': -209, 'message': 'Please provide the validation parameter', 'id': ''}
+
+1637781748614 :: place_order ::  :: 1637781748799 :: {'s': 'error', 'code': -209, 'message': 'Please provide the validation parameter', 'id': ''}
+
+1637781748807 :: place_order ::  :: 1637781748974 :: {'s': 'error', 'code': -209, 'message': 'Please provide the validation parameter', 'id': ''}
+
+1637781796919 :: place_order ::  :: 1637781797149 :: {'s': 'error', 'code': -209, 'message': 'Please provide the validation parameter', 'id': ''}
+
+1637781797157 :: place_order ::  :: 1637781797327 :: {'s': 'error', 'code': -209, 'message': 'Please provide the validation parameter', 'id': ''}
+
+1637781797333 :: place_order ::  :: 1637781797508 :: {'s': 'error', 'code': -209, 'message': 'Please provide the validation parameter', 'id': ''}
+
+1637781797517 :: place_order ::  :: 1637781797685 :: {'s': 'error', 'code': -209, 'message': 'Please provide the validation parameter', 'id': ''}
+
+1637781797694 :: place_order ::  :: 1637781797860 :: {'s': 'error', 'code': -209, 'message': 'Please provide the validation parameter', 'id': ''}
+
+1637781797867 :: place_order ::  :: 1637781798055 :: {'s': 'error', 'code': -209, 'message': 'Please provide the validation parameter', 'id': ''}
+
+1637781798064 :: place_order ::  :: 1637781798232 :: {'s': 'error', 'code': -209, 'message': 'Please provide the validation parameter', 'id': ''}
+
+1637781798239 :: place_order ::  :: 1637781798408 :: {'s': 'error', 'code': -209, 'message': 'Please provide the validation parameter', 'id': ''}
+
+1637781798416 :: place_order ::  :: 1637781798588 :: {'s': 'error', 'code': -209, 'message': 'Please provide the validation parameter', 'id': ''}
+
+1637781798594 :: place_order ::  :: 1637781798772 :: {'s': 'error', 'code': -209, 'message': 'Please provide the validation parameter', 'id': ''}
+
+1637781866489 :: place_order ::  :: 1637781866734 :: {'s': 'error', 'code': -174, 'message': 'System is not connected to NSE Derivative market', 'id': ''}
+
+1637781866744 :: place_order ::  :: 1637781866979 :: {'s': 'error', 'code': -174, 'message': 'System is not connected to NSE Derivative market', 'id': ''}
+
+1637781866987 :: place_order ::  :: 1637781867217 :: {'s': 'error', 'code': -174, 'message': 'System is not connected to NSE Derivative market', 'id': ''}
+
+1637781867226 :: place_order ::  :: 1637781867462 :: {'s': 'error', 'code': -174, 'message': 'System is not connected to NSE Derivative market', 'id': ''}
+
+1637781867472 :: place_order ::  :: 1637781867687 :: {'s': 'error', 'code': -174, 'message': 'System is not connected to NSE Derivative market', 'id': ''}
+
+1637781867696 :: place_order ::  :: 1637781867916 :: {'s': 'error', 'code': -174, 'message': 'System is not connected to NSE Derivative market', 'id': ''}
+
+1637781867922 :: place_order ::  :: 1637781868159 :: {'s': 'error', 'code': -174, 'message': 'System is not connected to NSE Derivative market', 'id': ''}
+
+1637781868164 :: place_order ::  :: 1637781868377 :: {'s': 'error', 'code': -174, 'message': 'System is not connected to NSE Derivative market', 'id': ''}
+
+1637781869111 :: place_order ::  :: 1637781869346 :: {'s': 'error', 'code': -174, 'message': 'System is not connected to NSE Derivative market', 'id': ''}
+
+1637781869355 :: place_order ::  :: 1637781869602 :: {'s': 'error', 'code': -174, 'message': 'System is not connected to NSE Derivative market', 'id': ''}
+
+1637781869607 :: place_order ::  :: 1637781869827 :: {'s': 'error', 'code': -174, 'message': 'System is not connected to NSE Derivative market', 'id': ''}
+
+1637781869836 :: place_order ::  :: 1637781870108 :: {'s': 'error', 'code': -174, 'message': 'System is not connected to NSE Derivative market', 'id': ''}
+
+1637781870117 :: place_order ::  :: 1637781870367 :: {'s': 'error', 'code': -174, 'message': 'System is not connected to NSE Derivative market', 'id': ''}
+
+1637781870377 :: place_order ::  :: 1637781870632 :: {'s': 'error', 'code': -174, 'message': 'System is not connected to NSE Derivative market', 'id': ''}
+
+1637781870639 :: place_order ::  :: 1637781870889 :: {'s': 'error', 'code': -174, 'message': 'System is not connected to NSE Derivative market', 'id': ''}
+
+1637781870897 :: place_order ::  :: 1637781871153 :: {'s': 'error', 'code': -174, 'message': 'System is not connected to NSE Derivative market', 'id': ''}
