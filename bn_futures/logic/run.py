@@ -27,7 +27,7 @@ def executeBNFuturesOrder():
     cursor.execute(query)
     data = cursor.fetchall()
     print("--------------------------------------")
-    # print(data)
+    print(data)
     # print(cursor.description)
     for each_record in data:
         quantity = each_record[0]#['number_of_lots']
@@ -36,10 +36,12 @@ def executeBNFuturesOrder():
         if order_1 !=0 :
             difference = order_1['difference']
             order_value = order_1['order_value']
+            order_value = int(order_value) + 30
             side = order_1['side']
             placeOrder(BN_FUTURES_CONTRACT,difference,quantity,order_value,side,fyers_app_id, fyers_acces_token)
         if order_2 !=0 :
             difference = order_2['difference']
             order_value = order_2['order_value']
+            order_value = int(order_value) - 30
             side = order_2['side']
             placeOrder(BN_FUTURES_CONTRACT,difference,quantity,order_value,side,fyers_app_id, fyers_acces_token)  

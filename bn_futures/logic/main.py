@@ -48,7 +48,8 @@ class BNFuturesBot():
             order_1, order_2 = self.senerio4(op_values)
         elif today_916_close > op_values["rev_buy"]:
             order_1, order_2 = self.senerio5(op_values)
-        print(order_1, order_2)
+        print(order_1)
+        print(order_2)
         return order_1, order_2
 
     def senerio1(self,op_values):
