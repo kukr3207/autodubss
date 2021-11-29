@@ -1,0 +1,18 @@
+
+1637898916282 :: place_order ::  :: 1637898916605 :: {'s': 'ok', 'code': 1101, 'message': 'Order Submitted Successfully. Your Order Ref. No.221112638981', 'id': '221112638981-BO-1'}
+
+1637898916617 :: place_order ::  :: 1637898916911 :: {'s': 'ok', 'code': 1101, 'message': 'Order Submitted Successfully. Your Order Ref. No.221112622802', 'id': '221112622802-BO-1'}
+
+1637898916921 :: place_order ::  :: 1637898917215 :: {'s': 'ok', 'code': 1101, 'message': 'Order Submitted Successfully. Your Order Ref. No.221112621673', 'id': '221112621673-BO-1'}
+
+1637898917223 :: place_order ::  :: 1637898917387 :: {'s': 'error', 'code': -22, 'message': 'Could not authenticate the user', 'id': ''}
+
+1637898917394 :: place_order ::  :: 1637898917689 :: {'s': 'ok', 'code': 1101, 'message': 'Order Submitted Successfully. Your Order Ref. No.221112639031', 'id': '221112639031-BO-1'}
+
+1637898917696 :: place_order ::  :: 1637898917997 :: {'s': 'ok', 'code': 1101, 'message': 'Order Submitted Successfully. Your Order Ref. No.221112620285', 'id': '221112620285-BO-1'}
+
+1637898918003 :: place_order ::  :: 1637898918280 :: {'s': 'ok', 'code': 1101, 'message': 'Order Submitted Successfully. Your Order Ref. No.221112620315', 'id': '221112620315-BO-1'}
+
+1637899301058 :: place_order ::  :: 1637899301290 :: {'s': 'error', 'code': -22, 'message': 'Could not authenticate the user', 'id': ''}
+
+1637899324746 :: place_order ::  :: 1637899324933 :: {'s': 'error', 'code': -22, 'message': 'Could not authenticate the user', 'id': ''}

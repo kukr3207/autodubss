@@ -1,0 +1,40 @@
+
+1638158639120 :: place_order ::  :: 1638158639313 :: {'s': 'error', 'code': -8, 'message': 'Your token has expired. Please generate a token', 'id': ''}
+
+1638158639320 :: place_order ::  :: 1638158639495 :: {'s': 'error', 'code': -8, 'message': 'Your token has expired. Please generate a token', 'id': ''}
+
+1638158639502 :: place_order ::  :: 1638158639797 :: {'s': 'ok', 'code': 1101, 'message': 'Order Submitted Successfully. Your Order Ref. No.221112939305', 'id': '221112939305-BO-1'}
+
+1638158639811 :: place_order ::  :: 1638158640164 :: {'s': 'ok', 'code': 1101, 'message': 'Order Submitted Successfully. Your Order Ref. No.221112939355', 'id': '221112939355-BO-1'}
+
+1638158640173 :: place_order ::  :: 1638158640485 :: {'s': 'ok', 'code': 1101, 'message': 'Order Submitted Successfully. Your Order Ref. No.221112980031', 'id': '221112980031-BO-1'}
+
+1638158640494 :: place_order ::  :: 1638158640817 :: {'s': 'ok', 'code': 1101, 'message': 'Order Submitted Successfully. Your Order Ref. No.221112980081', 'id': '221112980081-BO-1'}
+
+1638158640828 :: place_order ::  :: 1638158641180 :: {'s': 'ok', 'code': 1101, 'message': 'Order Submitted Successfully. Your Order Ref. No.221112942552', 'id': '221112942552-BO-1'}
+
+1638158641186 :: place_order ::  :: 1638158641469 :: {'s': 'ok', 'code': 1101, 'message': 'Order Submitted Successfully. Your Order Ref. No.221112942582', 'id': '221112942582-BO-1'}
+
+1638158641475 :: place_order ::  :: 1638158641795 :: {'s': 'ok', 'code': 1101, 'message': 'Order Submitted Successfully. Your Order Ref. No.221112980151', 'id': '221112980151-BO-1'}
+
+1638158641805 :: place_order ::  :: 1638158642136 :: {'s': 'ok', 'code': 1101, 'message': 'Order Submitted Successfully. Your Order Ref. No.221112980241', 'id': '221112980241-BO-1'}
+
+1638158644032 :: place_order ::  :: 1638158644496 :: {'s': 'error', 'code': -8, 'message': 'Your token has expired. Please generate a token', 'id': ''}
+
+1638158644503 :: place_order ::  :: 1638158644759 :: {'s': 'error', 'code': -8, 'message': 'Your token has expired. Please generate a token', 'id': ''}
+
+1638158644766 :: place_order ::  :: 1638158644997 :: {'s': 'error', 'code': -163, 'message': 'Order Rejected', 'id': ''}
+
+1638158645003 :: place_order ::  :: 1638158645285 :: {'s': 'error', 'code': -163, 'message': 'Order Rejected', 'id': ''}
+
+1638158645294 :: place_order ::  :: 1638158645581 :: {'s': 'error', 'code': -163, 'message': 'Order Rejected', 'id': ''}
+
+1638158645587 :: place_order ::  :: 1638158645871 :: {'s': 'error', 'code': -163, 'message': 'Order Rejected', 'id': ''}
+
+1638158645878 :: place_order ::  :: 1638158646199 :: {'s': 'ok', 'code': 1101, 'message': 'Order Submitted Successfully. Your Order Ref. No.221112942702', 'id': '221112942702-BO-1'}
+
+1638158646208 :: place_order ::  :: 1638158646470 :: {'s': 'error', 'code': -163, 'message': 'Order Rejected', 'id': ''}
+
+1638158646478 :: place_order ::  :: 1638158646747 :: {'s': 'error', 'code': -163, 'message': 'Order Rejected', 'id': ''}
+
+1638158646755 :: place_order ::  :: 1638158646982 :: {'s': 'error', 'code': -163, 'message': 'Order Rejected', 'id': ''}

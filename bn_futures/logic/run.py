@@ -27,7 +27,7 @@ def executeBNFuturesOrder():
     cursor.execute(query)
     data = cursor.fetchall()
     print("--------------------------------------")
-    print(data)
+    # print(data)
     # print(cursor.description)
     for each_record in data:
         quantity = each_record[0]#['number_of_lots']

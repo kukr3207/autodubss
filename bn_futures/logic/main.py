@@ -10,7 +10,7 @@ class BNFuturesBot():
 
     def getPreviousDayValues(self,td_obj):
         end_date = datetime.datetime.today() - timedelta(days=1)
-        hist_data = td_obj.get_historic_data("BANKNIFTY-I",end_time=end_date,duration='5 D',bar_size="EOD")
+        hist_data = td_obj.get_historic_data(BN_FUTURES_CONTRACT_FETCH_VALUES,end_time=end_date,duration='5 D',bar_size="EOD")
         previousday_high = hist_data[::-1][0]['h']
         previousday_low = hist_data[::-1][0]['l']
         previousday_close = hist_data[::-1][0]['c']
