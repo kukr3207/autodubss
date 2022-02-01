@@ -1,0 +1,44 @@
+
+1643687499015 :: place_order ::  :: 1643687499320 :: {'s': 'ok', 'code': 1101, 'message': 'Order Submitted Successfully. Your Order Ref. No.222020119702', 'id': '222020119702-BO-1'}
+
+1643687499336 :: place_order ::  :: 1643687499582 :: {'s': 'ok', 'code': 1101, 'message': 'Order Submitted Successfully. Your Order Ref. No.222020119742', 'id': '222020119742-BO-1'}
+
+1643687499593 :: place_order ::  :: 1643687499722 :: {'s': 'error', 'code': -8, 'message': 'Your token has expired. Please generate a token', 'id': ''}
+
+1643687499731 :: place_order ::  :: 1643687499846 :: {'s': 'error', 'code': -8, 'message': 'Your token has expired. Please generate a token', 'id': ''}
+
+1643687499858 :: place_order ::  :: 1643687499973 :: {'s': 'error', 'code': -8, 'message': 'Your token has expired. Please generate a token', 'id': ''}
+
+1643687499978 :: place_order ::  :: 1643687500096 :: {'s': 'error', 'code': -8, 'message': 'Your token has expired. Please generate a token', 'id': ''}
+
+1643687500101 :: place_order ::  :: 1643687500211 :: {'s': 'error', 'code': -8, 'message': 'Your token has expired. Please generate a token', 'id': ''}
+
+1643687500215 :: place_order ::  :: 1643687500326 :: {'s': 'error', 'code': -8, 'message': 'Your token has expired. Please generate a token', 'id': ''}
+
+1643687500332 :: place_order ::  :: 1643687500443 :: {'s': 'error', 'code': -8, 'message': 'Your token has expired. Please generate a token', 'id': ''}
+
+1643687500448 :: place_order ::  :: 1643687500551 :: {'s': 'error', 'code': -8, 'message': 'Your token has expired. Please generate a token', 'id': ''}
+
+1643687500558 :: place_order ::  :: 1643687500678 :: {'s': 'error', 'code': -8, 'message': 'Your token has expired. Please generate a token', 'id': ''}
+
+1643687500686 :: place_order ::  :: 1643687500793 :: {'s': 'error', 'code': -8, 'message': 'Your token has expired. Please generate a token', 'id': ''}
+
+1643687500797 :: place_order ::  :: 1643687500905 :: {'s': 'error', 'code': -8, 'message': 'Your token has expired. Please generate a token', 'id': ''}
+
+1643687500912 :: place_order ::  :: 1643687501039 :: {'s': 'error', 'code': -8, 'message': 'Your token has expired. Please generate a token', 'id': ''}
+
+1643687501048 :: place_order ::  :: 1643687501168 :: {'s': 'error', 'code': -8, 'message': 'Your token has expired. Please generate a token', 'id': ''}
+
+1643687501174 :: place_order ::  :: 1643687501293 :: {'s': 'error', 'code': -8, 'message': 'Your token has expired. Please generate a token', 'id': ''}
+
+1643687501298 :: place_order ::  :: 1643687501422 :: {'s': 'error', 'code': -8, 'message': 'Your token has expired. Please generate a token', 'id': ''}
+
+1643687501429 :: place_order ::  :: 1643687501538 :: {'s': 'error', 'code': -8, 'message': 'Your token has expired. Please generate a token', 'id': ''}
+
+1643687501546 :: place_order ::  :: 1643687501758 :: {'s': 'ok', 'code': 1101, 'message': 'Order Submitted Successfully. Your Order Ref. No.222020121295', 'id': '222020121295-BO-1'}
+
+1643687501770 :: place_order ::  :: 1643687502034 :: {'s': 'ok', 'code': 1101, 'message': 'Order Submitted Successfully. Your Order Ref. No.222020121325', 'id': '222020121325-BO-1'}
+
+1643687502045 :: place_order ::  :: 1643687502162 :: {'s': 'error', 'code': -8, 'message': 'Your token has expired. Please generate a token', 'id': ''}
+
+1643687502171 :: place_order ::  :: 1643687502282 :: {'s': 'error', 'code': -8, 'message': 'Your token has expired. Please generate a token', 'id': ''}
