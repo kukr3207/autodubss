@@ -3,6 +3,7 @@ asyncio==3.4.3
 certifi==2021.10.8
 chardet==4.0.0
 colorama==0.4.4
+celery
 Django==3.2.9
 fyers-apiv2==2.0.5
 gunicorn==20.1.0

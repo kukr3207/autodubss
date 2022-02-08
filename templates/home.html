@@ -44,7 +44,20 @@
 				</form>
 				<br>
 			</div>
-			<div class="col-sm-2"></div>
+			<div class="col-sm-4">
+				<p class="p-1 mb-2 bg-light" style="color:red;"> Please give inputs to the BANK-NIFTY Options BOT between 7AM-9:15AM everyday. <br>No orders will be placed after 9:15AM </p>
+				<p id="bn_options_bot_intro_text">Execute Bank Nifty Options Bot</p>
+				<button type="button" class="btn btn-primary" onclick="OpenBnOptionsFormOnButtonClick()" id="bn_options_formbutton"> BankNifty Options Bot </button>
+				<br>
+				{{context}}
+				<form id="bn_options_form" method="POST" style="display:none" class="form-group" action="{% url 'bn_options_bot_url' %}">
+					{% csrf_token %}
+					{{bn_options_form.as_p}}
+					<input class="btn btn-danger" type="submit" name="" value="Submit" onclick="displayToast()"/>
+				</form>
+				<br>
+			</div>
+		<div class="col-sm-2"></div>
 	</div>
 	<div class="row"> 
 				<div class="container">
@@ -72,6 +85,19 @@
 			var myform = document.getElementById('toggleAfterClick');
 			myform.onsubmit = function(){
 			    document.getElementById("bn_futures_bot_intro_text").innerHTML = "Please Enter Number of Lots you want to trade Bank Nifty";
+			    console.log("harsha");
+			};
+	</script>
+	<script type="text/javascript">
+		function OpenBnOptionsFormOnButtonClick()
+			{
+			document.getElementById('bn_options_form').style.display = '';
+			document.getElementById("bn_options_formbutton").style.display = 'none'
+			document.getElementById("bn_options_bot_intro_text").innerHTML = "Please Enter Number of Lots you want to trade Bank Nifty";
+			}
+			var myform = document.getElementById('toggleAfterClick');
+			myform.onsubmit = function(){
+			    document.getElementById("bn_options_bot_intro_text").innerHTML = "Please Enter Number of Lots you want to trade Bank Nifty";
 			    console.log("harsha");
 			};
 	</script>

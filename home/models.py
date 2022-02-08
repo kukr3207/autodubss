@@ -10,6 +10,15 @@ class UserBNFuturesRelation(models.Model):
     def __str__(self):
         return str(self.user_id)
 
+# Create your models here.
+class UserBNOptionsRelation(models.Model):
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE) #column name user_id_id
+    date_added = models.DateTimeField(auto_now_add=True)
+    number_of_lots = models.IntegerField()
+    fyers_access_token = models.CharField(max_length=1000, null=True)
+    def __str__(self):
+        return str(self.user_id)
+
 class UserFyersAppRelation(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	date_added = models.DateTimeField(auto_now_add=True)

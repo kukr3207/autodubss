@@ -3,6 +3,7 @@ import datetime
 from datetime import timedelta
 
 from .variables import *
+from bn_futures.models import BNFuturesBotOrders
 
 class BNFuturesBot():
     def __init__(self):
@@ -50,6 +51,15 @@ class BNFuturesBot():
             order_1, order_2 = self.senerio5(op_values)
         print(order_1)
         print(order_2)
+        #save order values in db
+        db_obj, created = BNFuturesBotOrders.objects.get_or_create(dummy_id=1)
+        db_obj.order_value_1 = order_1['order_value']
+        db_obj.side_1 = order_1['side']
+        db_obj.difference_1 = order_1['difference']
+        db_obj.order_value_2 = order_2['order_value']
+        db_obj.side_2 = order_2['side']
+        db_obj.difference_2 = order_2['difference']
+        db_obj.save()
         return order_1, order_2
 
     def senerio1(self,op_values):

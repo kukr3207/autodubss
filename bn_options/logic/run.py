@@ -3,42 +3,64 @@ import pytz
 import datetime
 from datetime import timedelta
 
-from .place_order import placeOrder
-from .main import BNFuturesBot
+from .place_order import placeOrder, exitOrder
+from .main import BNOptionsBot
+from bn_options.models import OptionsOrdersDetails,BNOptionsBotOrders
 from .variables import *
-from home.models import UserBNFuturesRelation as ubfr
+from home.models import UserBNOptionsRelation as ubor
 
-def executeBNFuturesOrder():
+def executeBNOptionsOrder():
     #get values
-    bn_futures_bot_obj = BNFuturesBot()
-    order_1, order_2 = bn_futures_bot_obj.logic()
+    bn_options_bot_obj = BNOptionsBot()
+    order = bn_options_bot_obj.logic()
     # loop each form record and place orders
     from_date = (datetime.datetime.now(tz=pytz.timezone('Asia/Kolkata')) - timedelta(days=1)).replace(hour=15,minute=30,second=0)
     to_date = (datetime.datetime.now(tz=pytz.timezone('Asia/Kolkata')))#.replace(hour=9,minute=18,second=0)
     from_date = from_date.strftime("%Y-%m-%d %H:%M:%S")
     to_date = to_date.strftime("%Y-%m-%d %H:%M:%S")
     cursor = connection.cursor()
-    query = """select ubfr.number_of_lots, ubfr.fyers_access_token , ufr.fyers_app_id
-            from home_userbnfuturesrelation as ubfr
+    query = """select ubor.number_of_lots, ubor.fyers_access_token , ufr.fyers_app_id, ubor.user_id
+            from home_userbnoptionsrelation as ubor
             join home_userfyersapprelation as ufr
-            on ubfr.id = ufr.id
+            on ubor.id = ufr.id
             """
     cursor.execute(query)
     data = cursor.fetchall()
-    print("--------------------------------------")
-    print(data)
     # print(cursor.description)
+    data = BNOptionsBotOrders.objects.get(dummy_id=1)
+    for each_record in data:
+        contract = each_record[1]
+    contract = BNOptionsBotOrders.objects.get(dummy_id=1)
     for each_record in data:
         quantity = each_record[0]#['number_of_lots']
         fyers_app_id = each_record[2]
         fyers_acces_token = each_record[1]
-        if order_1 !=0 :
-            difference = order_1['difference']
-            order_value = order_1['order_value']
-            side = order_1['side']
-            placeOrder(BN_FUTURES_CONTRACT,difference,quantity,order_value,side,fyers_app_id, fyers_acces_token)
-        if order_2 !=0 :
-            difference = order_2['difference']
-            order_value = order_2['order_value']
-            side = order_2['side']
-            placeOrder(BN_FUTURES_CONTRACT,difference,quantity,order_value,side,fyers_app_id, fyers_acces_token)  
+        user_id = each_record[3]
+        if order !=0 :
+            order_value = order['order_value']
+            response = placeOrder(contract,quantity,order_value, fyers_app_id, fyers_acces_token)
+            db_obj, created = OptionsOrdersDetails.objects.get_or_create(user_id=user_id)
+            db_obj.order_id = response['id']
+            db_obj.code = response['code']
+            db_obj.message = response['message']
+            db_obj.is_active = 1
+            db_obj.save()
+
+def exitBNOptionsOrder(self):
+    # data = OptionsOrdersDetails.objects.get(is_active=1)
+    cursor = connection.cursor()
+    query = """select ubor.fyers_access_token , ufr.fyers_app_id, ood.order_id
+                from home_userbnoptionsrelation as ubor
+                join home_userfyersapprelation as ufr
+                on ubor.id = ufr.id
+                join bn_options_optionsordersdetails as ood
+                on ubor.id = ood.id
+                where ood.is_active = 1
+                """
+    cursor.execute(query)
+    data = cursor.fetchall()
+    for each_record in data:
+        fyers_app_id = each_record[1]
+        fyers_acces_token = each_record[0]
+        order_id = each_record[2]
+        response = exitOrder(order_id,fyers_app_id,fyers_acces_token)

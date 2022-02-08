@@ -1,126 +1,48 @@
-from truedata_ws.websocket.TD import TD
+import math
 import datetime
 from datetime import timedelta
-import math
 from .variables import *
+from .models import BNOptionsBotOrders
 
 class BNOptionsBot():
-    def __init__(self):
-        pass
+    def __init__(self,order_value,side,difference):
+        self.order_value = order_value
+        self.side = side
+        self.difference = difference
 
-    def getPreviousDayValues(self,td_obj):
-        end_date = datetime.datetime.today() - timedelta(days=1)
-        hist_data = td_obj.get_historic_data("BANKNIFTY-I",end_time=end_date,duration='5 D',bar_size="EOD")
-        previousday_high = hist_data[::-1][0]['h']
-        previousday_low = hist_data[::-1][0]['l']
-        previousday_close = hist_data[::-1][0]['c']
-        return previousday_high, previousday_low, previousday_close
-
-    def getPresentDayValues(self,td_obj):
-        # end_date = datetime.datetime.now().replace(hour=9, minute=16, second=0, microsecond=0) 
-        end_date = (datetime.datetime.today()).replace(hour=9, minute=16, second=0, microsecond=0) 
-        hist_data = td_obj.get_historic_data("BANKNIFTY-I", end_time=end_date, duration='1 D', bar_size='1min')
-        for each_value in hist_data:
-            if each_value['time'] == end_date:
-                today_916_close = each_value['c']
-                break
-        return today_916_close
-
-    def getPresentDayOptionsValues(self,contract):
-        end_date = (datetime.datetime.today()).replace(hour=9, minute=16, second=0, microsecond=0) 
-        hist_data = td_obj.get_historic_data(contract, end_time=end_date, duration='1 D', bar_size='1min')
-        for each_value in hist_data:
-            if each_value['time'] == end_date:
-                today_916_close = each_value['c']
-                break
-        return today_916_close
-
-    def roundup(x):
+    def roundup(self,x):
         x = int(x)
         return int(math.ceil(x / 100.0)) * 100
 
-    def convertFuturesToOptions(self,order_1,order_2,today_916_close):
-        if order_1 != 0:
-            order_value = order_1['order_value']
-            order_value = self.roundup(order_value)
-            options_pe_contract = 
-            today_options_916_close = getPresentDayOptionsValues(contract)
-            # BN_OPTIONS_GREEK_VALUE
+    def getOptionsContract(self,futures_value,side):
+        if side==1:
+            value = self.roundup(futures_value)
+            value = value - OPTIONS_DEPTH
+            contract = BANKNIFTY_OPTIONS_CONTRACT_YEAR_MONTH_DATE + str(value) + "CE"
+        elif side == -1:
+            value = self.roundup(futures_value)
+            value = value + OPTIONS_DEPTH
+            contract = BANKNIFTY_OPTIONS_CONTRACT_YEAR_MONTH_DATE + str(value) + "PE"
+        return contract
 
-
+    def getOptionsData(self,contract):
+        start_date = datetime.datetime.now() - timedelta(minutes=5)
+        end_date = datetime.datetime.now()
+        hist_data = td_obj.get_historic_data(BN_FUTURES_CONTRACT_FETCH_VALUES,
+                                             start_time=start_date ,end_time=end_date,
+                                             duration='1 D',
+                                             bar_size="1min")
+        close_value = hist_data[::-1][0]['c']
+        close_value = int(close_value)
+        return close_value
 
     def logic(self):
-        td_obj = TD(USERNAME, PASSWORD)
-        previousday_high,previousday_low,previousday_close = self.getPreviousDayValues(td_obj)
-        today_916_close = self.getPresentDayValues(td_obj)
-        td_obj.disconnect()
-        # calculating op_values
-        op_values = {}
-        op_values["rev_sell"] = previousday_close - (0.6 * (previousday_high - previousday_low))
-        op_values["buy"] = previousday_close - (0.26 * (previousday_high - previousday_low)) 
-        op_values["sell"] = 0.26 * (previousday_high - previousday_low) + previousday_close 
-        op_values["rev_buy"] = 0.6 * (previousday_high - previousday_low) + previousday_close 
-        # decission function
-        if today_916_close <= op_values["rev_sell"]:
-            order_1, order_2 = self.senerio1(op_values)
-        elif today_916_close > op_values["rev_sell"] and today_916_close <= op_values["buy"]:
-            order_1, order_2 = self.senerio2(op_values)
-        elif today_916_close > op_values["buy"] and today_916_close <= op_values["sell"]:
-            order_1, order_2  = self.senerio3(op_values)
-        elif today_916_close > op_values["sell"] and today_916_close <= op_values["rev_buy"]:
-            order_1, order_2 = self.senerio4(op_values)
-        elif today_916_close > op_values["rev_buy"]:
-            order_1, order_2 = self.senerio5(op_values)
-        order_1,order_2 = self.convertFuturesToOptions(order_1,order_2,today_916_close)
-        print(order_1, order_2)
-        return order_1, order_2
-
-    def senerio1(self,op_values):
-        order_1 = {}
-        order_1['difference'] = abs(op_values["buy"] - op_values["rev_sell"])
-        order_1['order_value'] = op_values["rev_sell"] 
-        order_1['side'] = -1
-        order_2 = 0
-        return order_1, order_2
-
-    def senerio2(self,op_values):
-        order_1 = {}
-        order_1['difference'] = abs(op_values["buy"] - op_values["rev_sell"])
-        order_1['order_value'] = op_values["rev_sell"] 
-        order_1['side'] = -1
-        order_2 = {}
-        order_2['difference'] = abs(op_values["buy"] - op_values["rev_sell"])
-        order_2['order_value'] = op_values["buy"]
-        order_2['side'] = 1
-        return order_1, order_2
-
-    def senerio3(self,op_values):
-        order_1 = {}
-        order_1['difference'] = abs(op_values["rev_buy"] - op_values["sell"])
-        order_1['order_value'] = op_values["sell"]
-        order_1['side'] = -1
-        order_2 = {}
-        order_2['difference'] = abs(op_values["buy"] - op_values["rev_sell"])
-        order_2['order_value'] = op_values["buy"] 
-        order_2['side'] = 1
-        return order_1, order_2
-
-    def senerio4(self,op_values):
-        order_1 = {}
-        order_1['difference'] = abs(op_values["rev_buy"] - op_values["sell"])
-        order_1['order_value'] = op_values["sell"] 
-        order_1['side'] = -1
-        order_2 = {}
-        order_2['difference'] = abs(op_values["rev_buy"] - op_values["sell"])
-        order_2['order_value'] = op_values["rev_buy"]
-        order_2['side'] = 1
-        return order_1, order_2
-
-    def senerio5(self,op_values):
-        order_1 = 0
-        order_2 = {}
-        order_2['difference'] = abs(op_values["rev_buy"] - op_values["sell"])
-        order_2['order_value'] = op_values["rev_buy"]
-        order_2['side'] = 1
-        return order_1, order_2  
-
+        options_contract = self.getOptionsContract(self.order_value,self.side)
+        premium_value = self.getOptionsData(options_contract)
+        take_profit_value = int((premium_value*0.1) + premium_value)
+        stoploss_value = int(premium_value - (premium_value*0.1))
+        db_obj, created = BNOptionsBotOrders.objects.get_or_create(dummy_id=1)
+        db_obj.order_value = premium_value
+        db_obj.contract = options_contract
+        db_obj.save()
+        return premium_value
