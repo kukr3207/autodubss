@@ -2,7 +2,7 @@ import math
 import datetime
 from datetime import timedelta
 from .variables import *
-from .models import BNOptionsBotOrders
+from bn_options.models import BNOptionsBotOrders
 
 class BNOptionsBot():
     def __init__(self,order_value,side,difference):

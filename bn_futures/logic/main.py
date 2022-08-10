@@ -12,9 +12,11 @@ class BNFuturesBot():
     def getPreviousDayValues(self,td_obj):
         end_date = datetime.datetime.today() - timedelta(days=1)
         hist_data = td_obj.get_historic_data(BN_FUTURES_CONTRACT_FETCH_VALUES,end_time=end_date,duration='5 D',bar_size="EOD")
-        previousday_high = hist_data[::-1][0]['h']
-        previousday_low = hist_data[::-1][0]['l']
-        previousday_close = hist_data[::-1][0]['c']
+        print("*******333#############")
+        print(hist_data)
+        previousday_high = hist_data[::-1]['h']
+        previousday_low = hist_data[::-1]['l']
+        previousday_close = hist_data[::-1]['c']
         return previousday_high, previousday_low, previousday_close
 
     def getPresentDayValues(self,td_obj):
@@ -28,10 +30,16 @@ class BNFuturesBot():
         return today_916_close
 
     def logic(self):
-        td_obj = TD(USERNAME, PASSWORD)
-        previousday_high,previousday_low,previousday_close = self.getPreviousDayValues(td_obj)
-        today_916_close = self.getPresentDayValues(td_obj)
-        td_obj.disconnect()
+        # td_obj = TD(USERNAME, PASSWORD)
+        # previousday_high,previousday_low,previousday_close = self.getPreviousDayValues(td_obj)
+        # today_916_close = self.getPresentDayValues(td_obj)
+        # td_obj.disconnect()
+        # print("********************************")
+        # print(previousday_high,previousday_low,previousday_close)
+        previousday_high = 36675
+        previousday_low = 36468
+        previousday_close = 36490
+        today_916_close = 36508
         # calculating op_values
         op_values = {}
         op_values["rev_sell"] = previousday_close - (0.6 * (previousday_high - previousday_low))
@@ -52,14 +60,24 @@ class BNFuturesBot():
         print(order_1)
         print(order_2)
         #save order values in db
-        db_obj, created = BNFuturesBotOrders.objects.get_or_create(dummy_id=1)
-        db_obj.order_value_1 = order_1['order_value']
-        db_obj.side_1 = order_1['side']
-        db_obj.difference_1 = order_1['difference']
-        db_obj.order_value_2 = order_2['order_value']
-        db_obj.side_2 = order_2['side']
-        db_obj.difference_2 = order_2['difference']
-        db_obj.save()
+        # db_obj, created = BNFuturesBotOrders.objects.get_or_create(dummy_id=1)
+        # if order_1 == 0:
+        #     db_obj.order_value_1 = 0
+        #     db_obj.side_1 = 0
+        #     db_obj.difference_1 = 0
+        # else:
+        #     db_obj.order_value_1 = order_1['order_value']
+        #     db_obj.side_1 = order_1['side']
+        #     db_obj.difference_1 = order_1['difference']
+        # if order_2 == 0:
+        #     db_obj.order_value_2 = 0
+        #     db_obj.side_2 = 0
+        #     db_obj.difference_2 = 0
+        # else:
+        #     db_obj.order_value_2 = order_2['order_value']
+        #     db_obj.side_2 = order_2['side']
+        #     db_obj.difference_2 = order_2['difference']
+        # db_obj.save()
         return order_1, order_2
 
     def senerio1(self,op_values):

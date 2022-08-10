@@ -165,4 +165,4 @@ import os
 port = int(os.environ.get("PORT", 8000))
 
 # celery
-CELERY_BROKER_URL = 'redis://ocalhost:6379'
+CELERY_BROKER_URL = 'redis://localhost:6379'
