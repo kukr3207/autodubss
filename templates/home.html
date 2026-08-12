@@ -27,6 +27,7 @@
 <body>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
   		<a class="navbar-brand" href="#">Select your Trading Bot</a>
+		<a class="btn btn-outline-primary ml-auto" href="{% url 'fyers_authentication' %}">Authenticate with Fyers</a>
   	</nav>
   	<br><br>
 	<div class="container align-items-center mb-3 ml-2 p-2">
@@ -36,7 +37,6 @@
 				<p id="bn_futures_bot_intro_text">Execute Bank Nifty Futures Bot</p>
 				<button type="button" class="btn btn-primary" onclick="OpenBnFuturesFormOnButtonClick()" id="bn_futures_formbutton"> BankNifty Futures Bot </button>
 				<br>
-				{{context}}
 				<form id="bn_futures_form" method="POST" style="display:none" class="form-group" action="{% url 'bn_futures_bot_url' %}">
 					{% csrf_token %}
 					{{bn_futures_form.as_p}}
@@ -49,7 +49,6 @@
 				<p id="bn_options_bot_intro_text">Execute Bank Nifty Options Bot</p>
 				<button type="button" class="btn btn-primary" onclick="OpenBnOptionsFormOnButtonClick()" id="bn_options_formbutton"> BankNifty Options Bot </button>
 				<br>
-				{{context}}
 				<form id="bn_options_form" method="POST" style="display:none" class="form-group" action="{% url 'bn_options_bot_url' %}">
 					{% csrf_token %}
 					{{bn_options_form.as_p}}
@@ -71,10 +70,9 @@
 				</div>
 			</div>
 
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 	<script type="text/javascript">
 		function OpenBnFuturesFormOnButtonClick()
 			{
@@ -82,11 +80,6 @@
 			document.getElementById("bn_futures_formbutton").style.display = 'none'
 			document.getElementById("bn_futures_bot_intro_text").innerHTML = "Please Enter Number of Lots you want to trade Bank Nifty";
 			}
-			var myform = document.getElementById('toggleAfterClick');
-			myform.onsubmit = function(){
-			    document.getElementById("bn_futures_bot_intro_text").innerHTML = "Please Enter Number of Lots you want to trade Bank Nifty";
-			    console.log("harsha");
-			};
 	</script>
 	<script type="text/javascript">
 		function OpenBnOptionsFormOnButtonClick()
@@ -95,11 +88,6 @@
 			document.getElementById("bn_options_formbutton").style.display = 'none'
 			document.getElementById("bn_options_bot_intro_text").innerHTML = "Please Enter Number of Lots you want to trade Bank Nifty";
 			}
-			var myform = document.getElementById('toggleAfterClick');
-			myform.onsubmit = function(){
-			    document.getElementById("bn_options_bot_intro_text").innerHTML = "Please Enter Number of Lots you want to trade Bank Nifty";
-			    console.log("harsha");
-			};
 	</script>
 	<script type="text/javascript">
 		setTimeout(function() {
@@ -108,7 +96,6 @@
 	</script>
 </body>
 </html>
-
 
 
 

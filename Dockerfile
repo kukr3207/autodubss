@@ -1,30 +1,19 @@
-FROM ubuntu:latest
+FROM python:3.9-slim
 
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PORT=8000
 
-RUN mkdir /app
+WORKDIR /app
 
-COPY . /app
+COPY requirements.txt ./
+RUN pip install --no-cache-dir --upgrade pip \
+    && pip install --no-cache-dir -r requirements.txt
 
-RUN apt-get update && \ 
-	apt-get install -y python3 && \
-	apt-get install -y python3-pip
-
-RUN pip install --upgrade pip
-
-RUN apt-get install -y cron
-
-RUN pip install -r /app/requirements.txt
-RUN pip install django_apscheduler
-
-RUN python3 /app/manage.py migrate
-RUN python3 /app/manage.py makemigrations
-RUN python3 /app/manage.py migrate
-
+COPY . .
+RUN chmod +x docker-entrypoint.sh
 
 EXPOSE 8000
 
-ENV PORT 8000
-
-WORKDIR ./app
-
-CMD gunicorn algo_trading.wsgi:application --bind 0.0.0.0:$PORT --preload
+ENTRYPOINT ["./docker-entrypoint.sh"]
+CMD ["gunicorn", "algo_trading.wsgi:application", "--bind", "0.0.0.0:8000"]

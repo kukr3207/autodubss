@@ -1,0 +1,10 @@
+.DS_Store
+.env
+.idea/
+.venv/
+*.code-workspace
+*.log
+*.py[cod]
+*.sqlite3
+__pycache__/
+staticfiles/
