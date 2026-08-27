@@ -1,0 +1,2 @@
+# Dependencies needed by the offline Django test suite.
+Django==3.2.25

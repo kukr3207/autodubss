@@ -34,7 +34,12 @@ migrations run when the web container starts, not while its image is built.
 
 ## Tests
 
+The repository includes app-level regression tests and project smoke tests in
+`tests/`. GitHub Actions runs the same checks on every pull request and push to
+`main`.
+
 ```bash
+python -m pip install -r requirements-test.txt
 python manage.py check
 python manage.py test
 python manage.py makemigrations --check --dry-run
